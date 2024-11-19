@@ -138,10 +138,4 @@ class User extends Authenticatable implements MustVerifyEmail
         // Giả định người dùng có một giỏ hàng hiện tại
         return $this->carts()->where('status', 'active')->first()->items();
     }
-
-
-    public function reservations(): HasMany
-    {
-        return $this->hasMany(Reservation::class);
-    }
 }

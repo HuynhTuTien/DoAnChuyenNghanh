@@ -24,7 +24,7 @@ class DishController extends Controller
         $dish = Dish::findOrFail($id);
         $reviews = Review::where('dish_id', $id)->get();
 
-        return view('clients.food.dish_detail',compact('dishDetail','relatedDishes', 'reviews'));
+        return view('clients.food.dish_detail', compact('dishDetail', 'relatedDishes', 'reviews'));
     }
 
     public function menu()

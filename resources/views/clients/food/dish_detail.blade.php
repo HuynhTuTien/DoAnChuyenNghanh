@@ -140,6 +140,7 @@
                 <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
                     <div class="pd-inner-content">
                         <label for="">Ghi bình luận và đánh giá</label>
+                        @if(\Illuminate\Support\Facades\Auth::user()) <!-- Kiểm tra nếu người dùng đã đăng nhập -->
                         <form action="{{ route('reviews.store', $dishDetail->id) }}" method="POST">
                             @csrf
                             <div class="form-group">
@@ -159,6 +160,14 @@
                             </div>
                             <button class="btn btn-danger mt-3">Gửi đánh giá</button>
                         </form>
+                        @else
+                            <!-- Nếu người dùng chưa đăng nhập, chỉ hiển thị thông báo -->
+                            <div class="alert alert-warning mt-3">
+                                Vui lòng đăng nhập để có thể gửi bình luận và đánh giá.
+                            </div>
+                        @endif
+
+
                     </div>
                 </div>
             </div>
@@ -232,22 +241,25 @@
                                     <p class="text-muted mb-0">Đăng bởi: {{ $review->user->name }}</p>
                                 </div>
                                 <div class="col-lg-4 text-end">
-                                    @if(\Illuminate\Support\Facades\Auth::user()->id == $review->user_id)
+                                    @if(\Illuminate\Support\Facades\Auth::user() && \Illuminate\Support\Facades\Auth::user()->id == $review->user_id)
                                     <div class="dropdown">
                                         <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button"
                                             id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="fa-solid fa-ellipsis"></i>
                                         </button>
-                                        <ul class="dropdown-menu dropdown-menu-end"
-                                            aria-labelledby="dropdownMenuButton">
-                                            <li><a class="dropdown-item" data-bs-toggle="modal"
-                                                    data-bs-target="#editModal{{ $review->id }}">Chỉnh sửa</a></li>
-                                            <li><a class="dropdown-item text-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteModal{{ $review->id }}">Xóa</a></li>
+                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#editModal{{ $review->id }}">Chỉnh sửa</a></li>
+                                            <li><a class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $review->id }}">Xóa</a></li>
                                         </ul>
                                     </div>
-                                    @endif
+                                @endif
+
+
+
                                 </div>
+
+
+
                             </div>
                             @endforeach
                         </div>

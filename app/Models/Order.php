@@ -60,12 +60,13 @@ class Order extends Model
         return $total;
     }
 
-    public function reservation(): BelongsTo
-    {
-        return $this->belongsTo(Reservation::class);
-    }
+
 
     public function order_dish()
+    {
+        return $this->hasMany(OrderDish::class);
+    }
+    public function orderDishes()
     {
         return $this->hasMany(OrderDish::class);
     }

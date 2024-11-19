@@ -41,13 +41,21 @@ class LoginController extends Controller
                 Auth::login($newUser);
             }
 
-            return redirect()->intended('/');
+            // Kiểm tra vai trò của người dùng sau khi login
+            if (Auth::user()->role === 'admin') {
+                // Nếu là admin, chuyển hướng đến trang admin
+                return redirect()->route('admin');
+            } else {
+                // Nếu là user, chuyển hướng về trang chủ
+                return redirect()->intended('/');
+            }
         } catch (\Exception $e) {
             // Ghi log lỗi chi tiết
             \Log::error('Lỗi khi đăng nhập Google: ' . $e->getMessage());
             return redirect()->route('login')->withErrors(['msg' => 'Có lỗi xảy ra trong quá trình đăng nhập.']);
         }
     }
+
 
     public function redirectToFacebook()
     {
