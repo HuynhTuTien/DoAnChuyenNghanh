@@ -75,7 +75,7 @@
                         <form id="lien_he" action="#">
                             <input type="text" placeholder="Tên bạn:">
                             <input type="email" placeholder="email">
-                            <input type="url" placeholder="website">
+                            <input type="text" placeholder="Tiêu đề">
                             <textarea placeholder="nội dung"></textarea>
                             <button type="submit" class="btn">Gửi tin nhắn</button>
                         </form>
@@ -140,7 +140,7 @@
         </div>
         <div class="container">
             <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3648.4148247742232!2d90.39747015024156!3d23.874904684452307!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c43bc25ec0ad%3A0x92541def35db7c01!2sSoftTech-IT%20Institute!5e0!3m2!1sen!2sbd!4v1611143717399!5m2!1sen!2sbd"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9321.11098253229!2d106.62726088529!3d10.807910997506914!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752be2804c5ea3%3A0x299b8ad71d268338!2zMTQwIMSQLiBMw6ogVHLhu41uZyBU4bqlbiwgVMOieSBUaOG6oW5oLCBUw6JuIFBow7osIEjhu5MgQ2jDrSBNaW5o!5e0!3m2!1svi!2s!4v1732040668307!5m2!1svi!2s"
                 width="1190" height="400" style="border:0;" allowfullscreen="" aria-hidden="false"
                 tabindex="0"></iframe>
         </div>

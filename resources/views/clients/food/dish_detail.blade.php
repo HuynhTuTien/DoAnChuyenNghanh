@@ -113,10 +113,7 @@
                     <div class="nav-link active" id="des-tab" data-bs-toggle="tab" data-bs-target="#des" role="tab"
                         aria-controls="des" aria-selected="true">Mô tả</div>
                 </li>
-                <li class="nav-item" role="presentation">
-                    <div class="nav-link" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" role="tab"
-                        aria-controls="info" aria-selected="false">Thông tin thêm</div>
-                </li>
+
                 <li class="nav-item" role="presentation">
                     <div class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" role="tab"
                         aria-controls="reviews" aria-selected="false">Đánh giá</div>
@@ -138,105 +135,6 @@
                         </div>
 
                         <p>{{ $dishDetail->description }}.</p>
-                        <p> <b>Thành phần </b> Bánh mì Focaccia, Sốt Balsamic, Pesto, Cà chua, Phô mai Thụy Sĩ</p>
-                        <h6 class="margin-bottom-30">Kích thước burger</h6>
-                        <div class="table-box d-flex flex-wrap">
-                            <table class="margin-bottom-30">
-                                <tr>
-                                    <th rowspan="3" class="heading">burger <br>king <br><br>khoai tây chiên</th>
-                                    thông thường
-                                    <th>s</th>
-                                    <td>128</td>
-                                    <td>340</td>
-                                    <td>15</td>
-                                </tr>
-                                <tr>
-                                    <th>m</th>
-                                    <td>128</td>
-                                    <td>340</td>
-                                    <td>15</td>
-                                </tr>
-                                <tr>
-                                    <th>l</th>
-                                    <td>128</td>
-                                    <td>340</td>
-                                    <td>15</td>
-                                </tr>
-                            </table>
-                            <table>
-                                <tr>
-                                    <th rowpan="3" class="heading">bánh mì kẹp thịt <br>vua <br>thỏa mãn</th>
-                                    <th>value</th>
-                                    <td>87</td>
-                                    <td>190</td>
-                                    <td>8</td>
-                                </tr>
-                                <tr>
-                                    <th>s</th>
-                                    <td>87</td>
-                                    <td>190</td>
-                                    <td>8</td>
-                                </tr>
-                                <tr>
-                                    <th>m</th>
-                                    <td>87</td>
-                                    <td>190</td>
-                                    <td>8</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="info" role="tabpanel" aria-labelledby="info">
-                    <div class="pd-inner-content">
-                        <p>{{ $dishDetail->description }}.</p>
-                        <p> <b>Thành phần </b> Bánh mì Focaccia, Sốt Balsamic, Pesto, Cà chua, Phô mai Thụy Sĩ</p>
-                        <h6 class="margin-bottom-30">burger size</h6>
-
-                        <div class="table-box d-flex flex-wrap">
-                            <table class="margin-bottom-30">
-                                <tr>
-                                    <th rowpan="3" class="heading">bánh mì kẹp thịt <br>king <br><br>khoai tây
-                                        chiên</th> thông thường <th>s</th>
-                                    <td>128</td>
-                                    <td>340</td>
-                                    <td>15</td>
-                                </tr>
-                                <tr>
-                                    <th>m</th>
-                                    <td>128</td>
-                                    <td>340</td>
-                                    <td>15</td>
-                                </tr>
-                                <tr>
-                                    <th>l</th>
-                                    <td>128</td>
-                                    <td>340</td>
-                                    <td>15</td>
-                                </tr>
-                            </table>
-                            <table>
-                                <tr>
-                                    <th rowpan="3" class="heading">bánh mì kẹp thịt <br>vua <br>thỏa mãn</th>
-                                    <th>value</th>
-                                    <td>87</td>
-                                    <td>190</td>
-                                    <td>8</td>
-                                </tr>
-                                <tr>
-                                    <th>s</th>
-                                    <td>87</td>
-                                    <td>190</td>
-                                    <td>8</td>
-                                </tr>
-                                <tr>
-                                    <th>m</th>
-                                    <td>87</td>
-                                    <td>190</td>
-                                    <td>8</td>
-                                </tr>
-                            </table>
-                        </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
@@ -438,15 +336,13 @@
                 <div class="col-xl-3 col-lg-3 col-md-6 wow fadeInUp" data-wow-delay=".2s">
                     <div class="single-dishes">
                         <div class="dish-img">
-                            <img src="{{ asset('storage/images/' . $relatedDish->image) }}" style="width: inherit;"
-                                alt="">
+                            <img src="{{ asset('storage/images/' . $relatedDish->image) }}" style="width: inherit;" alt="">
                         </div>
                         <div class="dish-content">
-                            <h5><a href="single-food.html">{{ $relatedDish->name }}
-                                </a></h5>
-                            <p>{{ $relatedDish->description }}</p>
+                            <h5>
+                                <a href="{{ route('dishDetail', ['id' => $relatedDish->id]) }}">{{ $relatedDish->name }}</a>
+                            </h5>
                             <span class="price">giá : {{ number_format($relatedDish->price) }} VNĐ</span>
-
                         </div>
                         <span class="badge">hot</span>
                         <div class="cart-opt">
@@ -454,7 +350,7 @@
                                 <a href="#"><i class="fas fa-heart"></i></a>
                             </span>
                             <span>
-                                <a href="shopping-cart.html"><i class="fas fa-shopping-basket"></i></a>
+                                <a href="{{ route('dishDetail', ['id' => $relatedDish->id]) }}"><i class="fas fa-shopping-basket"></i></a>
                             </span>
                         </div>
                     </div>
@@ -463,5 +359,6 @@
             </div>
         </div>
     </div>
+
 </div>
 @endsection

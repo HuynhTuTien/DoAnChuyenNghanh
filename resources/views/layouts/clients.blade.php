@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
-<!-- Mirrored from html.imjol.com/khadyo/khadyo/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jun 2024 10:15:42 GMT -->
-
 <head>
     <!-- Required Meta Tags -->
     <meta charset="UTF-8" />
@@ -14,7 +11,7 @@
     <title> @yield('title', 'Trang chủ') </title>
     <!-- Favicon Icon -->
     <link rel="shortcut icon" href="favicon.png" />
-    <link rel="icon" href="https://nhahangvietxua.com/wp-content/uploads/2024/06/cropped-logo-32x32.png" sizes="32x32" />
+    <link rel="icon" href="https://cdn-icons-png.freepik.com/512/2454/2454219.png" sizes="40x40" />
     <!-- CSS Files -->
     <link rel="stylesheet" href="{{ asset('assets/client/css/animate.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/client/css/meanmenu.min.css') }}" />
@@ -25,23 +22,11 @@
     <link rel="stylesheet" href="{{ asset('assets/client/css/jquery-ui.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/client/css/style.css') }}" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Add Toastr CSS in the <head> section -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
     @stack('css')
 </head>
 
 <body style="font-family: 'Arial', sans-serif; ">
-    <!-- Preloader Starts -->
-    {{-- <div class="preloader" id="preloader">
-        <div class="preloader-inner">
-            <div class="spinner">
-                <div class="bounce1"></div>
-                <div class="bounce2"></div>
-                <div class="bounce3"></div>
-            </div>
-        </div>
-    </div> --}}
-
 
     <!-- header -->
     <x-client.header></x-client.header>
@@ -70,11 +55,7 @@
     <script src="{{ asset('assets/client/js/vendor/easing.min.js') }}"></script>
     <script src="{{ asset('assets/client/js/vendor/wow.min.js') }}"></script>
     <script src="{{ asset('assets/client/js/main.js') }}"></script>
-    <!-- Add Toastr JS before the closing </body> tag -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 </body>
-
-
-<!-- Mirrored from html.imjol.com/khadyo/khadyo/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 21 Jun 2024 10:16:17 GMT -->
 
 </html>

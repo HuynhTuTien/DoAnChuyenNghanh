@@ -11,7 +11,7 @@
                                 <a href="#"><i class="fas fa-phone-square-alt"></i> 0398482660</a>
                             </span>
                             <span>
-                                <a href="#"><i class="fas fa-envelope-open-text"></i> huynhtien030903@gmail.com</a>
+                                <a href="#"><i class="fas fa-envelope-open-text"></i> Dacn@gmail.com</a>
                             </span>
                         </div>
                         <div class="social-box">

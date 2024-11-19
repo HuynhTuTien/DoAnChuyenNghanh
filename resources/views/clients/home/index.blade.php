@@ -127,13 +127,13 @@
                     </p>
                     <div class="garlic-burger-card">
                         <div class="garlic-burger-img">
-                            <img class="price-badge" src="{{ asset('assets/client/images/icons/4.png') }}" alt="" />
+                            {{-- <img class="price-badge" src="{{ asset('assets/client/images/icons/4.png') }}" alt="" /> --}}
                             <img src="{{ asset('assets/client/images/icons/2.png') }}" alt="" />
                         </div>
                         <div class="garlic-burger-content">
                             <h5>Bữa Tiệc Gà Gán</h5>
                             <p> Ăn uống thả ga với những miếng gà giòn rụm, nóng hổi, thấm đẫm hương vị đặc biệt, cho
-                                bạn trải nghiệm vị ngon khó cưỡng! </p>"
+                                bạn trải nghiệm vị ngon khó cưỡng! </p>
                         </div>
                     </div>
                 </div>
@@ -162,20 +162,25 @@
                                 aria-controls="menu{{ $key + 1 }}-tab-pane"
                                 aria-selected="{{ $key == 0 ? 'true' : 'false' }}">
                                 <div class="single-menu-nav text-center">
-                                    <div class="menu-img margin-bottom-10 text-center">
-                                        <img style="width: 80px; height: 80px;"
-                                            src="{{ asset('storage/images/' . $category->image) }}"
-                                            alt="{{ $category->name }}" />
+                                    <!-- Hình ảnh menu -->
+                                    <div class="menu-img mb-1">
+                                        <img src="{{ asset('storage/images/' . $category->image) }}" alt="{{ $category->name }}"
+                                            class="img-fluid rounded-circle" style="max-width: 100px; max-height: 100px; object-fit: cover;">
                                     </div>
 
-                                    <p>{{ $category->name }}</p>
-                                    <span class="g-s-4"><img src="{{ asset('assets/client/images/shapes/10.png') }}"
-                                            alt="" /></span>
-                                    <span class="g-s-5"><img src="{{ asset('assets/client/images/shapes/14.png') }}"
-                                            alt="" /></span>
+                                    <!-- Tên menu -->
+                                    <h6 class="text-black font-weight-bold" style="width: 100%; white-space: nowrap; text-overflow: ellipsis;">
+                                        {{ $category->name }}
+                                    </h6>
+
+                                    <!-- Đường viền trang trí -->
+                                    <span class="g-s-4"><img src="{{ asset('assets/client/images/shapes/10.png') }}" alt="" /></span>
+                                    <span class="g-s-5"><img src="{{ asset('assets/client/images/shapes/14.png') }}" alt="" /></span>
                                 </div>
                             </div>
                         </li>
+
+
                         @endforeach
                     </ul>
                 </div>
@@ -208,7 +213,6 @@
                                 <div class="menu-content">
                                     <h5><a href="{{ route('dishDetail', ['id' => $dish->id]) }}">{{ $dish->name }}</a>
                                     </h5>
-                                    <p>{{ $dish->description }}</p>
                                     <span>giá : {{ number_format($dish->price, 0, ',', '.') }} VNĐ</span>
                                 </div>
                             </div>
@@ -251,7 +255,7 @@
                   ">
                             <img src="{{ asset('assets/client/images/gallery/26.png') }}" alt="" />
                             <img src="{{ asset('assets/client/images/shapes/38.png') }}" alt="" class="s11" />
-                            <span class="gprice-1">$15</span>
+                            <span class="gprice-1">150k</span>
                             <div class="gimg-content">
                                 <h5>Super Delicious Pizza</h5>
                                 <a href="{{ route('dishDetail', $dish->id) }}">Đặt hàng ngay bây giờ</a>
@@ -267,7 +271,7 @@
                             <img src="{{ asset('assets/client/images/gallery/23.png') }}" alt="" />
                             <img src="{{ asset('assets/client/images/shapes/layer2.png') }}" alt="" class="s12" />
                             <img src="{{ asset('assets/client/images/shapes/113.png') }}" alt="" class="s13" />
-                            <span class="gprice-2">$15</span>
+                            <span class="gprice-2">150k</span>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4">
@@ -279,7 +283,7 @@
                   ">
                             <img src="{{ asset('assets/client/images/gallery/26.png') }}" alt="" />
                             <img src="{{ asset('assets/client/images/shapes/38.png') }}" alt="" class="s11" />
-                            <span class="gprice-1">$15</span>
+                            <span class="gprice-1">150k</span>
                             <div class="gimg-content">
                                 <h5>Super Delicious Pizza</h5>
                                 <a href="{{ route('dishDetail', $dish->id) }}">Đặt hàng ngay bây giờ</a>
@@ -293,7 +297,7 @@
                             <img src="{{ asset('assets/client/images/gallery/23.png') }}" alt="" />
                             <img src="{{ asset('assets/client/images/shapes/layer2.png') }}" alt="" class="s12" />
                             <img src="{{ asset('assets/client/images/shapes/113.png') }}" alt="" class="s13" />
-                            <span class="gprice-2">$15</span>
+                            <span class="gprice-2">150k</span>
                         </div>
                     </div>
                 </div>
@@ -379,27 +383,27 @@
         <div class="slider-gallery-active">
             <div class="single-gallery-img">
                 <img src="{{ asset('assets/client/images/gallery/gm1.jpg') }}" alt="" />
-                <a href="gallery.html"><span><i class="fas fa-image"></i></span></a>
+                <a href="#"><span><i class="fas fa-image"></i></span></a>
             </div>
             <div class="single-gallery-img">
                 <img src="{{ asset('assets/client/images/gallery/gm2.jpg') }}" alt="" />
-                <a href="gallery.html"><span><i class="fas fa-image"></i></span></a>
+                <a href="#"><span><i class="fas fa-image"></i></span></a>
             </div>
             <div class="single-gallery-img">
                 <img src="{{ asset('assets/client/images/gallery/gm3.jpg') }}" alt="" />
-                <a href="gallery.html"><span><i class="fas fa-image"></i></span></a>
+                <a href="#"><span><i class="fas fa-image"></i></span></a>
             </div>
             <div class="single-gallery-img">
                 <img src="{{ asset('assets/client/images/gallery/gm4.jpg') }}" alt="" />
-                <a href="gallery.html"><span><i class="fas fa-image"></i></span></a>
+                <a href="#"><span><i class="fas fa-image"></i></span></a>
             </div>
             <div class="single-gallery-img">
                 <img src="{{ asset('assets/client/images/gallery/gm5.jpg') }}" alt="" />
-                <a href="gallery.html"><span><i class="fas fa-image"></i></span></a>
+                <a href="#"><span><i class="fas fa-image"></i></span></a>
             </div>
             <div class="single-gallery-img">
                 <img src="{{ asset('assets/client/images/gallery/gm6.jpg') }}" alt="" />
-                <a href="gallery.html"><span><i class="fas fa-image"></i></span></a>
+                <a href="#"><span><i class="fas fa-image"></i></span></a>
             </div>
         </div>
     </div>

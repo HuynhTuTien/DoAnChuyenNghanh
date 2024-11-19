@@ -112,11 +112,6 @@ class Dish extends Model
 
     //QUẢN LÝ NGUYÊN LIỆU
     // Quan hệ với nguyên liệu
-    // public function ingredients()
-    // {
-    //     return $this->belongsToMany(Ingredient::class, 'dishes_ingredients')
-    //         ->withPivot('quantity');  // quantity là số lượng nguyên liệu cho món ăn
-    // }
     public function ingredients()
     {
         return $this->belongsToMany(Ingredient::class, 'dishes_ingredients')
