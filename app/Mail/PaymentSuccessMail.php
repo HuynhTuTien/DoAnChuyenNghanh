@@ -29,14 +29,15 @@ class PaymentSuccessMail extends Mailable
      *
      * @return $this
      */
+    // khadyo@gmail.com
     public function build()
     {
-        return $this->from('khadyo@gmail.com')
-                    ->subject('Chi tiết đơn hàng của bạn')
-                    ->view('emails.payment_success')
-                    ->with([
-                        'order' => $this->order,
-                        'user' => $this->order->user,
-                    ]);
+        return $this->from('huynhtien030903@gmail.com')
+            ->subject('Chi tiết đơn hàng của bạn')
+            ->view('emails.payment_success')
+            ->with([
+                'order' => $this->order,
+                'user' => $this->order->user,
+            ]);
     }
 }

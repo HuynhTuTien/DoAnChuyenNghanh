@@ -174,4 +174,32 @@ class Cart extends Model
         self::where('user_id', $userId)->delete();
         return ['success' => 'Giỏ hàng đã được làm sạch!'];
     }
+
+
+    public static function removeItem($userId, $itemId)
+    {
+        // Tìm sản phẩm trong giỏ hàng của người dùng
+        $cartItem = self::where('user_id', $userId)
+            ->where('dish_id', $itemId)
+            ->first();
+
+        // Nếu không tìm thấy sản phẩm trong giỏ hàng
+        if (!$cartItem) {
+            return ['error' => 'Sản phẩm không tồn tại trong giỏ hàng.'];
+        }
+
+        // Kiểm tra nếu còn lại 1 sản phẩm trong giỏ hàng
+        $cartItems = self::where('user_id', $userId)->get();
+        if ($cartItems->count() === 1) {
+            // Nếu chỉ còn 1 sản phẩm, xóa toàn bộ giỏ hàng
+            self::clearCart($userId);
+            return ['success' => 'Giỏ hàng đã được làm sạch!'];
+        }
+
+        // Xóa sản phẩm khỏi giỏ hàng
+        $cartItem->delete();
+
+        // Trả về thông báo thành công
+        return ['success' => 'Sản phẩm đã được xóa khỏi giỏ hàng.'];
+    }
 }

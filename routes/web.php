@@ -65,7 +65,9 @@ Route::get('lien-he', [ContactController::class, 'index'])->name('contact');
 Route::get('thanh-toan', [CheckoutController::class, 'index'])->name('checkout');
 Route::get('gio-hang', [CartController::class, 'index'])->name('cart')->middleware('auth');
 Route::post('them-gio-hang', [CartController::class, 'addToCart'])->name('cartAdd')->middleware('auth');
-Route::delete('gio-hang/{id}', [CartController::class, 'remove'])->name('cartRemove')->middleware('auth');
+
+Route::delete('/gio-hang/{itemId}', [CartController::class, 'removeFromCart'])->name('cart.remove')->middleware('auth');
+
 Route::delete('cart/clear', [CartController::class, 'clear'])->name('cart.clear')->middleware('auth');
 Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update')->middleware('auth');
 Route::post('nhap-ma-uu-dai', [CartController::class, 'applyDiscountCode'])->name('applyDiscountCode')->middleware('auth');
@@ -126,7 +128,6 @@ Route::get('/orders/{id}/pdf', [OrderController::class, 'generatePdf'])->name('o
 Route::get('payment', [PaymentController::class, 'index'])->name('payment.list')->middleware(['auth', 'role:admin,staff']);
 
 
-
 //user
 Route::name('user.')->group(function () {
     Route::get('user/list', [UserController::class, 'index'])->name('list')->middleware(['auth', 'role:admin']);
@@ -184,7 +185,7 @@ Route::name('supplier.')->prefix('supplier')->middleware(['auth', 'role:admin'])
     Route::get('/{supplier}', [SupplierController::class, 'show'])->name('show'); // Hiển thị chi tiết một nhà cung cấp
     Route::get('/{supplier}/edit', [SupplierController::class, 'edit'])->name('edit'); // Hiển thị form chỉnh sửa nhà cung cấp
     Route::put('/{supplier}', [SupplierController::class, 'update'])->name('update'); // Cập nhật thông tin nhà cung cấp
-    Route::delete('/delete/{id}', [SupplierController::class, 'destroy'])->name('destroy'); // Xóa nhà cung cấp
+    Route::delete('/delete/{id}', action: [SupplierController::class, 'destroy'])->name('destroy'); // Xóa nhà cung cấp
 });
 
 
@@ -206,16 +207,8 @@ Route::name('ingredient.')->prefix('ingredient')->middleware(['auth', 'role:admi
 });
 
 
-
-// Route::middleware(['web'])->group(function () {
-//     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
-//     Route::post('/store-checkout-details', [CartController::class, 'storeCheckoutDetails'])->name('storeCheckoutDetails');
-// });
-
 Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
 Route::post('/checkout', [CheckoutController::class, 'processPayment'])->name('payment.process');
-
-
 
 
 // Route hiển thị chi tiết đơn hàng
@@ -223,9 +216,6 @@ Route::get('/admin/order/{id}', [OrderController::class, 'show'])->name('admin.o
 
 // Route cập nhật trạng thái đơn hàng
 Route::post('/admin/order/{id}/update-status', [OrderController::class, 'updateStatus'])->name('admin.order.updateStatus');
-
-
-
 
 
 Route::prefix('admin')->group(function () {
@@ -236,8 +226,3 @@ Route::prefix('admin')->group(function () {
 
     Route::post('/logout', [AdminLoginController::class, 'logoutAdmin'])->name('admin.logout');
 });
-
-
-// Route::get('/dashboard', [AdminLoginController::class, 'dashboard'])
-//     ->name('admin.dashboard')
-//     ->middleware(['auth', 'check.admin']);

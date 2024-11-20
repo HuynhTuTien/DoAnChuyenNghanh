@@ -39,21 +39,16 @@
         <div class="upper-table margin-bottom-30">
             <div class="row">
                 <div class="col-lg-6 col-md-12 margin-bottom-30">
-                    <form action="{{ route('applyDiscountCode') }}" method="POST">
+                    {{-- <form action="{{ route('applyDiscountCode') }}" method="POST">
                         @csrf
                         <div class="upper-t-left d-flex justify-content-between">
-                            <input name="code" type="text" placeholder="enter coupon">
+                            <input name="code" type="text" placeholder="Nhập mã giảm">
                             <button type="submit" class="btn">áp dụng ngay</button>
                         </div>
-                    </form>
+                    </form> --}}
                 </div>
                 <div class="col-lg-6 col-md-12">
-                    <div class="upper-t-right d-flex justify-content-between">
-                        <form action="{{ route('cart.clear') }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Làm sạch</button>
-                        </form>
+                    <div class="upper-t-right d-flex justify-content-end">
                         <form id="update-cart-form" action="{{ route('cart.update') }}" method="POST">
                             @csrf
                             <button id="update-cart-button" class="btn btn-primary">Cập nhật giỏ hàng</button>
@@ -102,11 +97,23 @@
                                 {{ number_format($item->total_price) }}đ
                             </td>
                             <td>
-                                <form action="{{ route('cartRemove', $item->id) }}" method="POST">
+                                {{-- <form action="{{ route('cart.remove', $item->dish->id) }}" method="POST" id="delete-form-{{ $item->dish->id }}">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Xóa</button>
+                                    <button type="button" class="btn btn-danger" onclick="deleteItem({{ $item->dish->id }}, '{{ $item->dish->name }}')">Xóa</button>
+                                </form> --}}
+
+
+                                <form action="{{ route('cart.remove', $item->dish->id) }}" method="POST" id="delete-form-{{ $item->dish->id }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-link">
+                                        <i class="fa-solid fa-trash" style="color: #ffffff;"></i> <!-- Biểu tượng xóa màu trắng -->
+                                    </button>
                                 </form>
+
+
+
                             </td>
                         </tr>
                         @endforeach
@@ -118,31 +125,55 @@
             @endif
         </div>
         <div class="row margin-top-60">
-            <form action="{{ route('checkout.store') }}" method="POST">
-                @csrf
+
                 <div class="row">
                     <div class="col-lg-7">
-
+                        <form action="{{ route('cart.clear') }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Làm sạch</button>
+                        </form>
                     </div>
                     <div class="col-lg-5">
-                        <div class="lower-table">
-                            <h6>Tiến hành thanh toán</h6>
-                            <div class="lower-table-info">
-                                <ul class="d-flex justify-content-between">
-                                    <li class="sub">Mã ưu đãi</li>
-                                    <li>-{{ number_format($discount) }}đ</li>
-                                </ul>
-                                <hr>
-                                <ul class="d-flex justify-content-between">
-                                    <li>Tổng cộng</li>
-                                    <li>{{ number_format($total) }}đ</li>
-                                </ul>
-                                <button type="submit" class="btn btn-danger mt-3">Tiến hành thanh toán</button>
+                        <div class="card p-4">
+                            <div class="mb-4">
+                                <h6 class="mb-3">Nhập mã giảm giá</h6>
+                                <form action="{{ route('applyDiscountCode') }}" method="POST">
+                                    @csrf
+                                    <div class="input-group">
+                                        <input name="code" type="text" class="form-control" placeholder="Nhập mã giảm giá" required>
+                                        <button type="submit" class="btn btn-primary">Áp dụng ngay</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="mt-4">
+                                <form action="{{ route('checkout.store') }}" method="POST">
+                                    @csrf
+                                    <h6 class="mb-3">Tiến hành thanh toán</h6>
+                                    <div class="list-group">
+                                        <ul class="list-group-item d-flex justify-content-between">
+                                            <span class="font-weight-bold">Mã ưu đãi</span>
+                                            <span>-{{ number_format($discount) }}đ</span>
+                                        </ul>
+                                        <hr>
+                                        <ul class="list-group-item d-flex justify-content-between">
+                                            <span class="font-weight-bold">Tổng cộng</span>
+                                            <span>{{ number_format($total) }}đ</span>
+                                        </ul>
+                                    </div>
+                                    <!-- Sử dụng w-100 cho nút thanh toán và margin-top để tạo khoảng cách -->
+                                    <div class="mt-3">
+                                        <button type="submit" class="btn btn-danger w-100">Tiến hành thanh toán</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
+
+
                 </div>
-            </form>
+
         </div>
     </div>
 </div>
@@ -189,5 +220,14 @@
         // Submit form update cart
         updateCartForm.submit();
     });
+</script>
+
+<script>
+function deleteItem(itemId, itemName) {
+    if (confirm('Bạn có chắc chắn muốn xóa sản phẩm "' + itemName + '" (ID: ' + itemId + ') không?')) {
+        document.getElementById('delete-form-' + itemId).submit();
+    }
+}
+
 </script>
 @endpush
