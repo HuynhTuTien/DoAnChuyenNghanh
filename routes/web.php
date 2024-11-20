@@ -41,7 +41,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\Supplier\SupplierController;
 use App\Http\Controllers\Admin\Ingredient\IngredientController;
-
+use App\Http\Controllers\Admin\Auth\AdminLoginController;
 
 Route::get('/promotions/export', function () {
     return Excel::download(new PromotionsExport, 'promotions.xlsx');
@@ -223,3 +223,21 @@ Route::get('/admin/order/{id}', [OrderController::class, 'show'])->name('admin.o
 
 // Route cập nhật trạng thái đơn hàng
 Route::post('/admin/order/{id}/update-status', [OrderController::class, 'updateStatus'])->name('admin.order.updateStatus');
+
+
+
+
+
+Route::prefix('admin')->group(function () {
+    Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
+    Route::post('/login', [AdminLoginController::class, 'login'])->name('admin.login.submit');
+    Route::get('admin', [AdminLoginController::class, 'admin'])->name('admin.index')->middleware('auth');
+
+
+    Route::post('/logout', [AdminLoginController::class, 'logoutAdmin'])->name('admin.logout');
+});
+
+
+// Route::get('/dashboard', [AdminLoginController::class, 'dashboard'])
+//     ->name('admin.dashboard')
+//     ->middleware(['auth', 'check.admin']);

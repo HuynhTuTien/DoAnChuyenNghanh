@@ -63,7 +63,15 @@
                                     </a></span>
                             </div>
                         </div>
+
                     </div>
+                    <form action="{{ route('admin.logout') }}" method="POST" style="display: inline;">
+                        @csrf
+                        <button type="submit" class="btn btn-link p-0" style="border: none; background: none;">
+                            <i class="fas fa-sign-out-alt" style="color: #dc3545; font-size: 1.5rem;" title="Đăng xuất"></i>
+                        </button>
+                    </form>
+
                 </nav>
             </div>
         </div>

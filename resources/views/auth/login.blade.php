@@ -1,5 +1,6 @@
 @extends('layouts.clients')
 @section('title', 'Đăng nhập')
+
 @section('content')
     <div class="banner-area breadcrumb-area padding-top-120 padding-bottom-90">
         <div class="bread-shapes">

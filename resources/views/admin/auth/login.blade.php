@@ -18,7 +18,7 @@
     <meta name="format-detection" content="telephone=no">
 
     <!-- PAGE TITLE HERE -->
-    <title>Đăng ký</title>
+    <title>Đăng nhập admin</title>
 
     <!-- FAVICONS ICON -->
     <link rel="shortcut icon" type="image/png" href="images/favicon.png">
@@ -59,95 +59,37 @@
                                                 <div class="tab-content w-100" id="nav-tabContent">
                                                     <div class="tab-pane fade show active" id="nav-personal"
                                                         role="tabpanel" aria-labelledby="nav-personal-tab">
-                                                        <form action="https://salero.dexignzone.com/xhtml/index.html"
-                                                            class=" dz-form pb-3">
+                                                        <form action="{{ route('admin.login.submit') }}" method="POST" class="dz-form pb-3">
+                                                            @csrf
                                                             <h3 class="form-title m-t0">Thông tin cá nhân</h3>
                                                             <div class="dz-separator-outer m-b5">
                                                                 <div class="dz-separator bg-primary style-liner"></div>
                                                             </div>
-                                                            <p>Nhập địa chỉ email và mật khẩu của bạn. </p>
+                                                            <p>Nhập địa chỉ email và mật khẩu của bạn.</p>
+
+                                                            <!-- Email input -->
                                                             <div class="form-group mb-3">
-                                                                <input type="email" class="form-control"
-                                                                    value="example@example.com">
+                                                                <input type="email" name="email" class="form-control" placeholder="Nhập email" required>
                                                             </div>
+
+                                                            <!-- Password input -->
                                                             <div class="form-group mb-3">
-                                                                <input type="password" class="form-control"
-                                                                    value="Password">
+                                                                <input type="password" name="password" class="form-control" placeholder="Nhập mật khẩu" required>
                                                             </div>
+
+                                                            <!-- Remember me checkbox -->
                                                             <div class="form-group text-left mb-4 forget-main">
-                                                                <div class="d-flex justify-content-between mb-2 ">
-                                                                    <button type="submit" class="btn btn-primary">Đăng
-                                                                        nhập</button>
+                                                                <div class="d-flex justify-content-between mb-2">
+                                                                    <button type="submit" class="btn btn-primary">Đăng nhập</button>
                                                                     <span class="form-check d-inline-block">
-                                                                        <input type="checkbox" class="form-check-input"
-                                                                            id="check1" name="example1">
-                                                                        <label class="form-check-label"
-                                                                            for="check1">Ghi
-                                                                            nhớ tôi</label>
+                                                                        <input type="checkbox" class="form-check-input" id="check1" name="remember">
+                                                                        <label class="form-check-label" for="check1">Ghi nhớ tôi</label>
                                                                     </span>
                                                                 </div>
-                                                                <button
-                                                                    class="nav-link m-auto btn tp-btn-light btn-primary forget-tab "
-                                                                    id="nav-forget-tab" data-bs-toggle="tab"
-                                                                    data-bs-target="#nav-forget" type="button"
-                                                                    role="tab" aria-controls="nav-forget"
-                                                                    aria-selected="false">Quên mật khẩu ?</button>
-                                                            </div>
-                                                            <div class="dz-social ">
-                                                                <h5 class="form-title fs-20">Đăng nhập với</h5>
-                                                                <ul
-                                                                    class="dz-social-icon dz-border dz-social-icon-lg text-white">
-                                                                    <li><a target="_blank"
-                                                                            href="https://www.facebook.com/"
-                                                                            class="fab fa-facebook-f btn-facebook"></a>
-                                                                    </li>
-                                                                    <li><a target="_blank"
-                                                                            href="https://www.google.com/"
-                                                                            class="fab fa-google-plus-g btn-google-plus"></a>
-                                                                    </li>
-                                                                    <li><a target="_blank"
-                                                                            href="https://www.linkedin.com/"
-                                                                            class="fab fa-linkedin-in btn-linkedin"></a>
-                                                                    </li>
-                                                                    <li><a target="_blank" href="https://twitter.com/"
-                                                                            class="fab fa-twitter btn-twitter"></a>
-                                                                    </li>
-                                                                </ul>
                                                             </div>
                                                         </form>
-                                                        <div class="text-center bottom">
-                                                            <button class="btn btn-primary button-md btn-block"
-                                                                id="nav-sign-tab" data-bs-toggle="tab"
-                                                                data-bs-target="#nav-sign" type="button"
-                                                                role="tab" aria-controls="nav-sign"
-                                                                aria-selected="false">Tạo một tài khoản</button>
+                                                    </div>
 
-                                                        </div>
-                                                    </div>
-                                                    <div class="tab-pane fade" id="nav-forget" role="tabpanel"
-                                                        aria-labelledby="nav-forget-tab">
-                                                        <form class="dz-form">
-                                                            <h3 class="form-title m-t0">Quên mật khẩu ?</h3>
-                                                            <div class="dz-separator-outer m-b5">
-                                                                <div class="dz-separator bg-primary style-liner"></div>
-                                                            </div>
-                                                            <p>Nhập địa chỉ e-mail và mật khẩu của bạn.
-                                                            </p>
-                                                            <div class="form-group mb-4">
-                                                                <input name="dzName" required=""
-                                                                    class="form-control" placeholder="Địa chỉ Email"
-                                                                    type="text">
-                                                            </div>
-                                                            <div class="form-group clearfix text-left">
-                                                                <button class=" active btn btn-primary"
-                                                                    id="nav-personal-tab" data-bs-toggle="tab"
-                                                                    data-bs-target="#nav-personal" type="button"
-                                                                    role="tab" aria-controls="nav-personal"
-                                                                    aria-selected="true">Quay lại</button>
-                                                                <button class="btn btn-primary float-end">Gửi</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
                                                 </div>
 
                                             </div>
@@ -157,8 +99,7 @@
                                         <div class=" bottom-footer clearfix m-t10 m-b20 row text-center">
                                             <div class="col-lg-12 text-center">
                                                 <span> © Copyright by
-                                                    <a href="javascript:void(0);">DexignZone </a> All rights
-                                                    reserved.</span>
+                                                    <a href="javascript:void(0);">tt</span>
                                             </div>
                                         </div>
                                     </div>
