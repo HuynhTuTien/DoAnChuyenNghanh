@@ -10,16 +10,14 @@
             <span class="b-shape-3"><img src="{{ asset('assets/client/images/img/7.png') }}" alt=""></span>
             <span class="b-shape-4"><img src="{{ asset('assets/client/images/img/9.png') }}" alt=""></span>
             <span class="b-shape-5"><img src="{{ asset('assets/client/images/shapes/18.png') }}" alt=""></span>
-            <span class="b-shape-6 item-animateOne"><img src="{{ asset('assets/client/images/img/7.png') }}"
-                    alt=""></span>
+            <span class="b-shape-6 item-animateOne"><img src="{{ asset('assets/client/images/img/7.png') }}"" alt=""></span>
         </div>
         <div class="container padding-top-120">
             <div class="row justify-content-center">
                 <nav aria-label="breadcrumb">
                     <h2 class="page-title">Trang đăng ký</h2>
                     <ol class="breadcrumb text-center">
-                        <li class="breadcrumb-item"><a href="/">Trang chủ</a> / <a href="{{ route('register') }}">Đăng
-                                ký</a></li>
+                        <li class="breadcrumb-item"><a href="/">Trang chủ</a> / <a href="{{ route('register') }}">Đăng ký</a></li>
                     </ol>
                 </nav>
             </div>
@@ -29,25 +27,20 @@
     <!-- contact-form-area -->
     <section class="about-area about-area2 writeto-us login-area signup-area padding-top-120 padding-bottom-120">
         <div class="form-shapes">
-            <span class="fs1 item-animateOne"><img src="{{ asset('assets/client/images/shapes/1.png') }}"
-                    alt=""></span>
-            <span class="fs2 item-bounce"><img src="{{ asset('assets/client/images/shapes/12.png') }}"
-                    alt=""></span>
+            <span class="fs1 item-animateOne"><img src="{{ asset('assets/client/images/shapes/1.png') }}" alt=""></span>
+            <span class="fs2 item-bounce"><img src="{{ asset('assets/client/images/shapes/12.png') }}" alt=""></span>
             <span class="fs3"><img src="{{ asset('assets/client/images/shapes/13.png') }}" alt=""></span>
-            <span class="fs4 item-bounce"><img src="{{ asset('assets/client/images/shapes/26.png') }}"
-                    alt=""></span>
+            <span class="fs4 item-bounce"><img src="{{ asset('assets/client/images/shapes/26.png') }}" alt=""></span>
         </div>
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 col-md-12  wow fadeInUp">
                     <div class="about-left">
                         <div class="about-l-shapes">
-                            <span class="als-1"><img src="{{ asset('assets/client/images/shapes/2.png') }}"
-                                    alt=""></span>
+                            <span class="als-1"><img src="{{ asset('assets/client/images/shapes/2.png') }}" alt=""></span>
                         </div>
                         <div class="row">
-                            <div
-                                class="col-lg-4 col-md-4 col-sm-4 col-4 d-flex align-items-end justify-content-end margin-bottom-20">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-4 d-flex align-items-end justify-content-end margin-bottom-20">
                                 <div class="about-gallery-1">
                                     <img src="{{ asset('assets/client/images/gallery/1.jpg') }}" alt="">
                                 </div>
@@ -55,7 +48,6 @@
                             <div class="col-lg-8 col-md-8 col-sm-8 col-8 margin-bottom-20">
                                 <div class="about-gallery-2">
                                     <img src="{{ asset('assets/client/images/gallery/2.jpg') }}" alt="">
-
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-6">
@@ -73,45 +65,50 @@
                 </div>
                 <div class="col-lg-6 col-md-12 wow fadeInUp">
                     <div class="contact-form-area login-form-area signup-form-area">
-                        <h3>Đăng ký <span>ngay</span></h3>
+                        <h3><span>Đăng ký</span></h3>
                         <x-guest-layout>
-                            @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
                             <form method="POST" action="{{ route('register') }}">
                                 @csrf
-                                <div class="google-button">
-                                    <a href="#" class="btn"><span><i class="fab fa-google"></i></span> google</a>
-                                </div>
                                 <div>
                                     <x-label for="name" value="{{ __('Tên của bạn') }}" />
-                                    <x-input id="name" placeholder="Tên" type="text" name="name"
-                                        :value="old('name')" required autofocus autocomplete="name" />
+                                    <x-input id="name" placeholder="Tên" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+                                    @error('name')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mt-4">
+                                    <x-label for="phone" value="{{ __('Số điện thoại') }}" />
+                                    <x-input id="phone" placeholder="Số điện thoại của bạn" type="text" name="phone" :value="old('phone')" required autocomplete="phone" />
+                                    @error('phone')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="mt-4">
                                     <x-label for="email" value="{{ __('Email') }}" />
-                                    <x-input id="email" placeholder="email của bạn" type="email" name="email"
-                                        :value="old('email')" required autocomplete="username" />
+                                    <x-input id="email" placeholder="email của bạn" type="email" name="email" :value="old('email')" required autocomplete="username" />
+                                    @error('email')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="mt-4">
                                     <x-label for="password" value="{{ __('Mật khẩu') }}" />
-                                    <x-input id="password" placeholder="Nhập mật khẩu" type="password" name="password"
-                                        required autocomplete="new-password" />
+                                    <x-input id="password" placeholder="Nhập mật khẩu" type="password" name="password" required autocomplete="new-password" />
+                                    @error('password')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="mt-4">
                                     <x-label for="password_confirmation" value="{{ __('Nhập lại mật khẩu') }}" />
-                                    <x-input id="password_confirmation" placeholder="Nhập lại mật khẩu" type="password"
-                                        name="password_confirmation" required autocomplete="new-password" />
+                                    <x-input id="password_confirmation" placeholder="Nhập lại mật khẩu" type="password" name="password_confirmation" required autocomplete="new-password" />
+                                    @error('password_confirmation')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
+
                                 <div class="flex content-center items-center justify-between mt-4">
                                     <x-button type="submit" class="btn ms-4">
                                         {{ __('Đăng ký') }}

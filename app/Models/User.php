@@ -35,7 +35,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'slug',
         'active',
         'google_id',
-        'facebook_id'
+        'facebook_id',
+        'ngay_sinh',    // Thêm ngày sinh
+        'can_cuoc',     // Thêm căn cước
+        'que_quan',     // Thêm quê quán
+        'chuc_vu',      // Thêm chức vụ
     ];
 
     /**

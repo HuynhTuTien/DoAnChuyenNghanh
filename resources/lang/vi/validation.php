@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     'accepted' => 'Bạn phải chấp nhận :attribute.',
     'active_url' => ':attribute không phải là một URL hợp lệ.',
     'after' => ':attribute phải là ngày sau :date.',

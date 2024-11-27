@@ -87,13 +87,13 @@
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf
 
-                                <div class="row">
+                                {{-- <div class="row">
                                     <div class="google-button">
                                         <a href="{{ route('auth.google') }}" class="btn google-btn"><span><i
                                                     class="fab fa-google"></i></span> Google</a>
                                     </div>
 
-                                </div>
+                                </div> --}}
 
                                 <div class="mt-4">
                                     <x-label for="email" value="{{ __('Email') }}" />
@@ -107,20 +107,24 @@
                                         required autocomplete="current-password" />
                                 </div>
 
-                                <div class="flex content-center items-center mt-3">
+                                <div class="d-flex justify-content-between align-items-center m-1">
                                     @if (route('password.request'))
-                                        <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                            href="{{ route('password.request') }}">
+                                        <a class="text-decoration-none text-secondary" href="{{ route('password.request') }}">
                                             {{ __('Quên mật khẩu?') }}
                                         </a>
                                     @endif
 
-                                    <a href="{{ route('register') }}">{{ __('Đăng ký') }}</a>
-
-                                    <x-button type="submit" class="btn ms-4">
+                                    <x-button type="submit" class="btn btn-primary">
                                         {{ __('Đăng nhập') }}
                                     </x-button>
+
+                                    <a href="{{ route('register') }}" class="text-decoration-none text-danger font-weight-bold">
+                                        {{ __('Đăng ký tài khoản mới') }}
+                                    </a>
+
                                 </div>
+
+
 
                             </form>
                         </x-guest-layout>

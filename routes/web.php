@@ -139,19 +139,6 @@ Route::name('user.')->group(function () {
 })->middleware(['auth', 'role:admin']);
 
 
-
-// // post
-// Route::name('post.')->group(function () {
-//     Route::get('post/list', [PostController::class, 'index'])->name('list')->middleware(['auth', 'role:admin,staff']);
-//     Route::get('post/create', [PostController::class, 'create'])->name('create')->middleware(['auth', 'role:admin,staff']);
-//     Route::post('post/store', [PostController::class, 'store'])->name('store')->middleware(['auth', 'role:admin,staff']);
-//     Route::get('post/edit/{id}', [PostController::class, 'edit'])->name('edit')->middleware(['auth', 'role:admin,staff']);
-//     Route::put('post/update/{id}', [PostController::class, 'update'])->name('update')->middleware(['auth', 'role:admin,staff']);
-//     Route::delete('post/delete/{id}', [PostController::class, 'destroy'])->name('destroy')->middleware(['auth', 'role:admin,staff']);
-// })->middleware(['auth', 'role:admin,staff']);
-
-
-
 //Category
 Route::name('category.')->group(function () {
     Route::get('category', [CategoryController::class, 'list'])->name('list')->middleware(['auth', 'role:admin,staff']);

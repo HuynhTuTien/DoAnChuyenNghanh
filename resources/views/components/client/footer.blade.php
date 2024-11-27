@@ -30,7 +30,7 @@
                       </div>
                   </div>
                   <div class="col-lg-2 col-md-3">
-                      <a href="shopping-cart.html" class="btn">đặt ngay</a>
+                      <a href="#" class="btn">đặt ngay</a>
                   </div>
               </div>
               <hr />

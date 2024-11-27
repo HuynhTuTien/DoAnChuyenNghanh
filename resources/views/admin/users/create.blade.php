@@ -1,4 +1,5 @@
 @extends('layouts.admin')
+
 @section('title', 'Create User')
 
 @section('content')
@@ -15,7 +16,7 @@
                                 @csrf
                                 <div class="row">
                                     <div class="mb-3 col-md-6">
-                                        <label class="form-label">Tên: <span class="text-danger">*</span> </label>
+                                        <label class="form-label">Tên: <span class="text-danger">*</span></label>
                                         <input type="text" name="name" id="name" class="form-control"
                                             value="{{ old('name') }}" placeholder="Tên">
                                         @error('name')
@@ -25,7 +26,7 @@
                                     <div class="mb-3 col-md-6">
                                         <label class="form-label">Email: <span class="text-danger">*</span></label>
                                         <input type="email" name="email" id="email" class="form-control"
-                                            value="{{ old('email') }}" placeholder="Email">
+                                            value="{{ old('email') }}" placeholder="Email" autocomplete="off">
                                         @error('email')
                                             <span class="text-danger"> {{ $message }} </span>
                                         @enderror
@@ -46,30 +47,66 @@
                                             <span class="text-danger"> {{ $message }} </span>
                                         @enderror
                                     </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label class="form-label">Ngày sinh: <span class="text-danger">*</span></label>
+                                        <input type="date" name="ngay_sinh" id="ngay_sinh" class="form-control"
+                                            value="{{ old('ngay_sinh') }}">
+                                        @error('ngay_sinh')
+                                            <span class="text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label class="form-label">Căn cước công dân: <span class="text-danger">*</span></label>
+                                        <input type="text" name="can_cuoc" id="can_cuoc" class="form-control"
+                                            value="{{ old('can_cuoc') }}" placeholder="Căn cước công dân">
+                                        @error('can_cuoc')
+                                            <span class="text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label class="form-label">Quê quán: <span class="text-danger">*</span></label>
+                                        <input type="text" name="que_quan" id="que_quan" class="form-control" value="{{ old('que_quan') }}" placeholder="Quê quán">
+                                        @error('que_quan')
+                                            <span class="text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3 col-md-6">
+                                        <label class="form-label">Chức vụ: <span class="text-danger">*</span></label>
+                                        <input type="text" name="chuc_vu" id="chuc_vu" class="form-control" value="{{ old('chuc_vu') }}" placeholder="Chức vụ">
+                                        @error('chuc_vu')
+                                            <span class="text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+
                                     <div class="mb-3 col-md-12">
                                         <label class="form-label">Password: <span class="text-danger">*</span></label>
                                         <input type="password" name="password" id="password" class="form-control"
-                                            value="{{ old('password') }}" placeholder="Mật khẩu">
+                                            value="{{ old('password') }}" placeholder="Mật khẩu" autocomplete="new-password">
                                         @error('password')
                                             <span class="text-danger"> {{ $message }} </span>
                                         @enderror
                                     </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">Quyền: <span class="text-danger">*</span></label>
-                                        <select class="default-select form-control wide" name="role" id="role">
-                                            <option value="" disabled selected>Chọn quyền</option>
-                                            <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin
-                                            </option>
-                                            <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>
-                                                Người Dùng
-                                            </option>
-                                            <option value="staff" {{ old('role') == 'staff' ? 'selected' : '' }}>Nhân viên
-                                            </option>
-                                        </select>
-                                        @error('role')
-                                            <span class="text-danger"> {{ $message }} </span>
-                                        @enderror
-                                    </div>
+
+                                    <!-- Quyền -->
+                                    @if(auth()->user()->role == 'admin')
+                                        <!-- Nếu người dùng hiện tại là admin, cho phép chọn quyền cho người khác -->
+                                        <div class="mb-3">
+                                            <label class="form-label">Quyền: <span class="text-danger">*</span></label>
+                                            <select class="default-select form-control wide" name="role" id="role">
+                                                <option value="" disabled selected>Chọn quyền</option>
+                                                <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                                                <option value="staff" {{ old('role') == 'staff' ? 'selected' : '' }}>Nhân viên</option>
+                                            </select>
+                                            @error('role')
+                                                <span class="text-danger"> {{ $message }} </span>
+                                            @enderror
+                                        </div>
+                                    @else
+                                        <!-- Nếu không phải admin, quyền "user" sẽ tự động được gán -->
+                                        <input type="hidden" name="role" value="user">
+                                    @endif
+
                                     <div>
                                         <button type="submit" class="btn btn-primary">Thêm</button>
                                         <a href="{{ route('user.create') }}" class="btn btn-danger">Hủy bỏ</a>
