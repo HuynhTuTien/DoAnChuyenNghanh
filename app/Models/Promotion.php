@@ -34,4 +34,10 @@ class Promotion extends Model
             $this->attributes['status'] = 'inactive';
         }
     }
+
+    public function isValid()
+    {
+        // Kiểm tra xem mã giảm giá còn hạn và chưa hết số lần sử dụng
+        return $this->expiry_date >= now() && $this->number_use > 0;
+    }
 }
