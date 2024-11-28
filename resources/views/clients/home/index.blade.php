@@ -317,65 +317,6 @@
     </div>
 </section>
 
-<!-- countdown -->
-<section class="countdown-area padding-top-120 padding-bottom-120">
-    <div class="container">
-        <div class="countdown-shapes">
-            <span class="cs-1 item-bounce"><img src="{{ asset('assets/client/images/shapes/24.png') }}" alt="" /></span>
-            <span class="cs-3 item-bounce"><img src="{{ asset('assets/client/images/shapes/26.png') }}" alt="" /></span>
-            <span class="cs-4 item-animateOne"><img src="{{ asset('assets/client/images/shapes/27.png') }}"
-                    alt="" /></span>
-            <span class="cs-5"><img src="{{ asset('assets/client/images/shapes/18.png') }}" alt="" /></span>
-            <span class="cs-6"><img src="{{ asset('assets/client/images/shapes/22.png') }}" alt="" /></span>
-            <span class="cs-7"><img src="{{ asset('assets/client/images/shapes/30.png') }}" alt="" /></span>
-        </div>
-        <div class="row align-items-center">
-            <div class="col-lg-6 col-md-12 col-sm-12 col-12 margin-bottom-20">
-                <div class="countdown-left">
-                    <span class="cs-1"><img src="{{ asset('assets/client/images/shapes/25.png') }}" alt="" /></span>
-                    <span class="cs-2"><img src="{{ asset('assets/client/images/shapes/Leaf.png') }}" alt="" /></span>
-                    <span class="cs-3"><img src="{{ asset('assets/client/images/shapes/Leaf4.png') }}" alt="" /></span>
-                    <span class="cs-4"><img src="{{ asset('assets/client/images/img/3.png') }}" alt="" /></span>
-                    <span class="cs-5"><img src="{{ asset('assets/client/images/shapes/tomato.png') }}" alt="" /></span>
-                    <span class="cs-6"><img src="{{ asset('assets/client/images/shapes/onions.png') }}" alt="" /></span>
-                    <span class="cs-7"><img src="{{ asset('assets/client/images/shapes/Leaf2.png') }}" alt="" /></span>
-                    <span class="cs-8"><img src="{{ asset('assets/client/images/shapes/Leaf3.png') }}" alt="" /></span>
-                    <img src="{{ asset('assets/client/images/img/21.png') }}" alt="" />
-                </div>
-            </div>
-            <div class="col-lg-5 offset-lg-1 col-md-12 col-sm-12 col-12">
-                <div class="countdown-right">
-                    <div class="common-title-area padding-bottom-20">
-                        <h2>sắp ra mắt</h2>
-                        <h2><span>Pizza gà cay</span></h2>
-                    </div>
-                    <div class="count-box countdown">
-                        <div>
-                            <span class="days">03</span>
-                            <p class="days_ref">Ngày</p>
-                        </div>
-                        <span class="seperator">:</span>
-                        <div>
-                            <span class="hours">00</span>
-                            <p class="hours_ref">Giờ</p>
-                        </div>
-                        <span class="seperator">:</span>
-                        <div>
-                            <span class="minutes">00</span>
-                            <p class="minutes_ref">Phút</p>
-                        </div>
-                        <span class="seperator">:</span>
-                        <div>
-                            <span class="seconds">00</span>
-                            <p class="seconds_ref">Giây</p>
-                        </div>
-                    </div>
-                    <a href="{{ route('dishDetail', $dish->id) }}" class="btn">Đặt hàng ngay bây giờ</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 <!-- slider-gallery-img -->
 <div class="slider-gallery-img">

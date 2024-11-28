@@ -29,7 +29,7 @@ class PaymentSuccessMail extends Mailable
      *
      * @return $this
      */
-    // khadyo@gmail.com
+
     public function build()
     {
         return $this->from('huynhtien030903@gmail.com')

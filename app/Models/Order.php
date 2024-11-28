@@ -21,8 +21,11 @@ class Order extends Model
         'status',
         'order_date',
         'order_time',
-        'delivery_address', // Cột mới
-        'payment_option',   // Cột mới
+        'delivery_address', // Địa chỉ đầy đủ
+        'district',         // Quận
+        'ward',             // Phường
+        'payment_option',   // Phương thức thanh toán
+        'store_visit_time',
     ];
 
     public function user(): BelongsTo

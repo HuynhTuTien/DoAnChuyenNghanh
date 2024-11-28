@@ -27,6 +27,7 @@
         <form action="{{ route('payment.process') }}" method="POST">
             @csrf
             <div class="row">
+                <!-- Cart Details -->
                 <div class="col-md-7">
                     <div class="card">
                         <div class="card-header bg-light">
@@ -59,41 +60,75 @@
                     </div>
                 </div>
 
+                <!-- Customer Information and Payment Section -->
                 <div class="col-md-5">
                     <div class="card mb-3">
                         <div class="card-header bg-light">
                             <h5 class="card-title mb-0">Thông tin khách hàng</h5>
                         </div>
                         <div class="card-body">
+                            <!-- Customer Name -->
                             <div class="mb-3">
                                 <label for="name" class="form-label">Họ tên</label>
-                                <input type="text" name="name" class="form-control" value="{{ old('name') }}" required>
+                                <input type="text" name="name" class="form-control" value="{{ old('name', $user->name ?? '') }}" required>
                             </div>
+
+                            <!-- Customer Phone -->
                             <div class="mb-3">
                                 <label for="phone" class="form-label">Số điện thoại</label>
-                                <input type="text" name="phone" class="form-control" value="{{ old('phone') }}" required>
+                                <input type="text" name="phone" class="form-control" value="{{ old('phone', $user->phone ?? '') }}" required>
                             </div>
+
+                            <!-- Customer Note -->
                             <div class="mb-3">
                                 <label for="note" class="form-label">Ghi chú</label>
                                 <textarea name="note" class="form-control" rows="3">{{ old('note') }}</textarea>
                             </div>
+
+                            <!-- Payment Option Selection -->
                             <div class="mb-3">
                                 <label for="paymentOption" class="form-label">Hình thức thanh toán</label>
                                 <select name="payment_option" id="paymentOption" class="form-select" onchange="toggleAddressField(this.value)">
-                                    <option value="store">Dùng tại cửa hàng</option>
+                                    <option value="store" selected>Dùng tại cửa hàng</option>
                                     <option value="delivery">Giao hàng</option>
                                 </select>
                             </div>
 
+                            <!-- Delivery Address Section -->
                             <div class="mb-3" id="deliveryAddressField" style="display: none;">
+                                <label for="district" class="form-label text-muted">Hiện tại của hàng chỉ giới hạn khu vực giao hàng trong một số quận ở Thành phố Hồ Chí Minh</label>
+                                <label for="district" class="form-label">Chọn Quận</label>
+                                <select name="district" id="district" class="form-select" onchange="updateWards(this.value)">
+                                    <option value="">Chọn Quận</option>
+                                    <option value="Tân Phú">Tân Phú</option>
+                                    <option value="Tân Bình">Tân Bình</option>
+                                    <option value="Bình Tân">Bình Tân</option>
+                                </select>
+                            </div>
+
+                            <!-- Ward Selection -->
+                            <div class="mb-3" id="wardField" style="display: none;">
+                                <label for="ward" class="form-label">Chọn Phường</label>
+                                <select name="ward" id="ward" class="form-select">
+                                    <option value="">Chọn Phường</option>
+                                </select>
+                            </div>
+
+                            <!-- Delivery Address Field -->
+                            <div class="mb-3" id="deliveryAddressFieldWrapper" style="display: none;">
                                 <label for="deliveryAddress" class="form-label">Địa chỉ giao hàng</label>
                                 <textarea name="delivery_address" id="deliveryAddress" class="form-control" rows="3" placeholder="Nhập địa chỉ của bạn"></textarea>
                             </div>
 
-
+                            <!-- Store Visit Time Field -->
+                            <div class="mb-3" id="storeTimeField" style="display: none;">
+                                <label for="storeTime" class="form-label">Chọn thời gian đến</label>
+                                <input type="time" name="store_visit_time" id="storeTime" class="form-control">
+                            </div>
                         </div>
                     </div>
 
+                    <!-- Payment Summary and Methods -->
                     <div class="card">
                         <div class="card-header bg-light">
                             <h5 class="card-title mb-0">Thanh toán</h5>
@@ -115,11 +150,11 @@
                                 <label for="paymentMethod" class="form-label">Phương thức thanh toán</label>
                                 <select name="paymentMethod" class="form-select" required>
                                     <option value="restaurant">Thanh toán tiền mặt</option>
-                                    <option value="vnpay">Thanh toán qua VNPay</option>
-                                    <option value="momo">Thanh toán qua MoMo</option>
+                                    <option value="vnPay">Thanh toán VNPay</option>
+                                    <option value="momo">Thanh toán MoMo</option>
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-success w-100">Hoàn tất thanh toán</button>
+                            <button type="submit" class="btn btn-primary w-100">Thanh toán</button>
                         </div>
                     </div>
                 </div>
@@ -127,14 +162,66 @@
         </form>
     </div>
 </div>
+
 <script>
+    // Toggle delivery fields
     function toggleAddressField(option) {
         const addressField = document.getElementById('deliveryAddressField');
+        const wardField = document.getElementById('wardField');
+        const deliveryAddressFieldWrapper = document.getElementById('deliveryAddressFieldWrapper');
+        const storeTimeField = document.getElementById('storeTimeField');
+
         if (option === 'delivery') {
+            // Hiển thị các trường liên quan đến giao hàng
             addressField.style.display = 'block';
+            wardField.style.display = 'block';
+            deliveryAddressFieldWrapper.style.display = 'block';
+            storeTimeField.style.display = 'none';  // Ẩn trường thời gian khi giao hàng
         } else {
+            // Hiển thị trường thời gian và ẩn các trường địa chỉ
             addressField.style.display = 'none';
+            wardField.style.display = 'none';
+            deliveryAddressFieldWrapper.style.display = 'none';
+            storeTimeField.style.display = 'block';  // Hiển thị trường thời gian khi dùng tại cửa hàng
         }
     }
+
+    // Mặc định khi trang load là "Dùng tại cửa hàng"
+    window.onload = function() {
+        toggleAddressField('store');  // Mặc định là "Dùng tại cửa hàng"
+    }
+
+
+    // Update wards based on selected district
+    function updateWards(district) {
+        const wardSelect = document.getElementById('ward');
+        let wards = [];
+        switch (district) {
+            case 'Tân Phú':
+                wards = ['Hiệp Tân', 'Hòa Thạnh', 'Phú Thọ Hòa', 'Phú Thạnh', 'Phú Trung', 'Tân Quý', 'Tân Thành', 'Tân Sơn Nhì', 'Tân Thới Hòa', 'Tây Thạnh', 'Sơn Kỳ'];
+                break;
+            case 'Tân Bình':
+                wards = ['Phường 1', 'Phường 2', 'Phường 3', 'Phường 4', 'Phường 5', 'Phường 6', 'Phường 7', 'Phường 8', 'Phường 9', 'Phường 10', 'Phường 11', 'Phường 12', 'Phường 13', 'Phường 14', 'Phường 15'];
+                break;
+            case 'Bình Tân':
+                wards = ['An Lạc', 'An Lạc A', 'Bình Hưng Hòa', 'Bình Hưng Hòa A', 'Bình Hưng Hòa B', 'Bình Trị Đông', 'Bình Trị Đông A', 'Bình Trị Đông B', 'Tân Tạo', 'Tân Tạo A'];
+                break;
+            default:
+                wards = [];
+        }
+        // Populate ward select options
+        wardSelect.innerHTML = '<option value="">Chọn Phường</option>';
+        wards.forEach(function (ward) {
+            const option = document.createElement('option');
+            option.value = ward;
+            option.textContent = ward;
+            wardSelect.appendChild(option);
+        });
+    }
+
+    //  // Mặc định khi trang load là "Dùng tại cửa hàng" và không hiển thị chọn giờ
+    //  window.onload = function() {
+    //     toggleAddressField('store');  // Mặc định là "Dùng tại cửa hàng"
+    // }
 </script>
 @endsection
