@@ -27,6 +27,7 @@ use App\Http\Controllers\Client\Checkout\CheckoutController;
 use App\Http\Controllers\Client\About\AboutController;
 use App\Http\Controllers\Client\Auth\AccountController;
 use App\Http\Controllers\Client\Auth\LoginController;
+use App\Http\Controllers\Client\Auth\ForgotPasswordController;
 use App\Http\Controllers\Client\Dish\DishController;
 use App\Http\Controllers\Client\Review\ReviewController;
 use App\Http\Controllers\Client\Blog\BlogController;
@@ -213,3 +214,10 @@ Route::prefix('admin')->group(function () {
 
     Route::post('/logout', [AdminLoginController::class, 'logoutAdmin'])->name('admin.logout');
 });
+
+
+Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])
+    ->name('password.request');
+
+Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])
+    ->name('password.email');
