@@ -7,6 +7,7 @@ use App\Models\Supplier;
 use App\Models\IngredientEntry;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Admin\DishController;
 
 class IngredientController extends Controller
 {
@@ -117,8 +118,12 @@ class IngredientController extends Controller
         $ingredient = Ingredient::find($request->ingredient_id);
         $ingredient->updateQuantity($request->quantity);
 
+        // Gọi phương thức cập nhật số lượng món ăn
+        app(DishController::class)->updateDishQuantities();
+
         return redirect()->route('ingredient.list')->with('success', 'Nguyên liệu đã được nhập thành công!');
     }
+
 
     public function showEntryList()
     {

@@ -115,6 +115,9 @@ Route::name('dish.')->group(function () {
     Route::post('dish/ingredients/{slug}/add', [AdminDishController::class, 'storeIngredient'])->name('addIngredient')->middleware(['auth', 'role:admin,staff']);
     Route::post('dish/ingredients/{slug}/{ingredientId}/update', [AdminDishController::class, 'updateIngredientQuantity'])->name('updateIngredientQuantity')->middleware(['auth', 'role:admin,staff']);
     Route::delete('dish/ingredients/{slug}/{ingredientId}', [AdminDishController::class, 'deleteIngredient'])->name('deleteIngredient')->middleware(['auth', 'role:admin,staff']);
+
+
+    Route::post('dish/update-quantities', [AdminDishController::class, 'updateDishQuantities'])->name('updateQuantities')->middleware(['auth', 'role:admin,staff']);
 })->middleware(['auth', 'role:admin,staff']);
 
 

@@ -8,6 +8,7 @@ use App\Http\Requests\Dish\UpdateDishRequest;
 use App\Models\Category;
 use App\Models\Ingredient;
 use App\Models\Dish;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class DishController extends Controller
@@ -121,6 +122,9 @@ class DishController extends Controller
         // Thêm nguyên liệu với quantity là kiểu số thập phân
         $dish->addIngredient($request->ingredient_id, $request->quantity);
 
+        //-------------------------------------------------------
+        app(DishController::class)->updateDishQuantities();
+
         flash()->success('Thêm nguyên liệu thành công.');
         return redirect()->route('dish.ingredients', $slug);
     }
@@ -137,13 +141,12 @@ class DishController extends Controller
 
         // Cập nhật số lượng nguyên liệu với kiểu dữ liệu DECIMAL
         $dish->updateIngredient($ingredientId, $request->quantity);
+        //-------------------------------------------------------
+        app(DishController::class)->updateDishQuantities();
 
         flash()->success('Cập nhật nguyên liệu thành công.');
         return redirect()->route('dish.ingredients', $slug);
     }
-
-
-
 
     // Hàm xóa nguyên liệu khỏi món ăn
     public function deleteIngredient($slug, $ingredientId)
@@ -153,5 +156,26 @@ class DishController extends Controller
 
         flash()->success('Xóa nguyên liệu thành công.');
         return redirect()->route('dish.ingredients', $slug);
+    }
+
+    public function updateDishQuantities()
+    {
+        // Cập nhật số lượng món ăn trong bảng dishes
+        DB::table('dishes')
+            ->join(
+                DB::raw('(
+                    SELECT di.dish_id,
+                           MIN(i.quantity / di.quantity) AS max_quantity
+                      FROM dishes_ingredients di
+                      JOIN ingredients i ON di.ingredient_id = i.id
+                      GROUP BY di.dish_id
+                ) AS ingredient_availability'),
+                'dishes.id',
+                '=',
+                'ingredient_availability.dish_id'
+            )
+            ->update(['dishes.quantity' => DB::raw('ingredient_availability.max_quantity')]);
+
+        return response()->json(['message' => 'Quantities updated successfully']);
     }
 }
