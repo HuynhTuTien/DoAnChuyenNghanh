@@ -32,7 +32,7 @@ class PromotionController extends Controller
 
     public function update($id)
     {
-        $promotion = Promotion::where('id',$id)->firstOrFail();
+        $promotion = Promotion::where('id', $id)->firstOrFail();
 
         return view('admin.promotion.update', compact('promotion'));
     }
@@ -43,16 +43,16 @@ class PromotionController extends Controller
         $validated = $request->validated();
 
 
-        $promotion = Promotion::where('id',$id)->firstOrFail();
+        $promotion = Promotion::where('id', $id)->firstOrFail();
 
         $promotion->code = $validated['code'];
         $promotion->discount = $validated['discount'];
-        $promotion->number_use = $validated['number_use'];
+        // $promotion->number_use = $validated['number_use'];
         $promotion->start_time = $validated['start_time'];
         $promotion->end_time = $validated['end_time'];
-        $promotion->status = $validated['number_use']<= 0 ? 'inactive' : $validated['status'];
+        // $promotion->status = $validated['number_use']<= 0 ? 'inactive' : $validated['status'];
         $promotion->describe = $validated['describe'];
-        
+
         $promotion->save();
 
         flash()->success('Khuyến mãi đã được cập nhật thành công.');

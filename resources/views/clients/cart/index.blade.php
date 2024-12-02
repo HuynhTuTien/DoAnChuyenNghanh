@@ -26,7 +26,7 @@
 </div>
 
 <!-- shopping-cart -->
-<div class="portfolio-info shopping-cart padding-top-120 padding-bottom-90">
+<div class="portfolio-info shopping-cart padding-top-30 padding-bottom-20">
     <div class="shopping-shapes">
         <span class="ps1"><img src="{{ asset('assets/client/images/shapes/12.png') }}" alt=""></span>
         <span class="pss2 item-bounce"><img src="{{ asset('assets/client/images/shapes/26.png') }}" alt=""></span>
@@ -36,20 +36,6 @@
         <span class="ps6"><img src="{{ asset('assets/client/images/shapes/13.png') }}" alt=""></span>
     </div>
     <div class="container">
-        <div class="upper-table margin-bottom-30">
-            <div class="row">
-                <div class="col-lg-6 col-md-12 margin-bottom-30">
-                </div>
-                <div class="col-lg-6 col-md-12">
-                    <div class="upper-t-right d-flex justify-content-end">
-                        <form id="update-cart-form" action="{{ route('cart.update') }}" method="POST">
-                            @csrf
-                            <button id="update-cart-button" class="btn btn-primary">Cập nhật giỏ hàng</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div style="overflow-x:auto;">
             @if (count($cartItems) > 0)
             <form id="cart-items-form">
@@ -110,29 +96,44 @@
         <div class="row margin-top-60">
 
                 <div class="row">
-                    <div class="col-lg-7">
+                    <div class="col-lg-3">
                         <form action="{{ route('cart.clear') }}" method="POST">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Làm sạch</button>
                         </form>
                     </div>
+                    <div class="col-lg-4">
+                        <form id="update-cart-form" action="{{ route('cart.update') }}" method="POST">
+                            @csrf
+                            <button id="update-cart-button" class="btn btn-primary">Cập nhật giỏ hàng</button>
+                        </form>
+                    </div>
+
                     <div class="col-lg-5">
                         <div class="card p-4">
-
-
                             <div class="mt-4">
                                 <form action="{{ route('checkout.store') }}" method="POST">
                                     @csrf
                                     <h6 class="mb-3">Tạm tính</h6>
                                     <div class="list-group">
-                                        <ul class="list-group-item d-flex justify-content-between">
-                                            <span class="font-weight-bold">Bạn được giảm</span>
-                                            <span>-{{ number_format($discount) }}đ</span>
-                                        </ul>
-                                        <hr>
+                                        <!-- Hiển thị tổng tiền trước khi giảm giá -->
                                         <ul class="list-group-item d-flex justify-content-between">
                                             <span class="font-weight-bold">Tổng cộng</span>
+                                            <span>{{ number_format($totalBeforeDiscount) }}đ</span>
+                                        </ul>
+
+                                        <!-- Hiển thị số tiền giảm -->
+                                        <ul class="list-group-item d-flex justify-content-between">
+                                            <span class="font-weight-bold">Bạn được giảm ({{ $discountPercentage }}%)</span>
+                                            <span>-{{ number_format($discount) }}đ</span>
+                                        </ul>
+
+                                        <hr>
+
+                                        <!-- Hiển thị tổng tiền sau khi giảm -->
+                                        <ul class="list-group-item d-flex justify-content-between">
+                                            <span class="font-weight-bold">Thành tiền</span>
                                             <span>{{ number_format($total) }}đ</span>
                                         </ul>
                                     </div>
@@ -142,6 +143,7 @@
                                 </form>
                             </div>
                         </div>
+
                     </div>
 
 

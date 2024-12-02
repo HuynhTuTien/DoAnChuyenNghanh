@@ -31,7 +31,7 @@
                                                 <th><strong>Số thứ tự</strong></th>
                                                 <th><strong>Mã khuyến mãi</strong></th>
                                                 <th><strong>Giá khuyến mãi</strong></th>
-                                                <th><strong>Số lần sử dụng</strong></th>
+
                                                 <th><strong>Ngày bắt đầu</strong></th>
                                                 <th><strong>Ngày kết thúc</strong></th>
                                                 <th><strong>Trạng thái</strong></th>
@@ -44,8 +44,8 @@
                                                 <tr>
                                                     <td><strong>{{ $promotions->firstItem() + $index }}</strong></td>
                                                     <td>{{ $promotion->code }}</td>
-                                                    <td>{{ number_format($promotion->discount) }} VNĐ</td>
-                                                    <td>{{ $promotion->number_use }}</td>
+                                                    <td>{{ number_format($promotion->discount) }} %</td>
+
                                                     <td>{{ \Carbon\Carbon::parse($promotion->start_time)->format('d-m-Y') }}</td>
                                                     <td>{{ \Carbon\Carbon::parse($promotion->end_time)->format('d-m-Y') }}</td>
                                                     <td>

@@ -93,9 +93,9 @@ class Cart extends Model
             ->where('end_time', '>=', now())
             ->first();
 
-        if (!$promotion || $promotion->number_use <= 0) {
-            return ['error' => 'Mã giảm giá không hợp lệ hoặc đã hết số lần sử dụng.'];
-        }
+        // if (!$promotion || $promotion->number_use <= 0) {
+        //     return ['error' => 'Mã giảm giá không hợp lệ hoặc đã hết số lần sử dụng.'];
+        // }
 
         $cartItems = self::where('user_id', $userId)->get();
 

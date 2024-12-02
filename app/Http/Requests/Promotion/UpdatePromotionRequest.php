@@ -11,26 +11,25 @@ class UpdatePromotionRequest extends FormRequest
      */
     public function rules(): array
     {
-        $id= $this->route('id');
+        $id = $this->route('id');
         return [
-            'code' => 'required|min:4|max:255|string|unique:promotions,code,'. $id,
-            'discount' =>'required|numeric|min:0',
-            'number_use' =>'required|numeric|min:0',
+            'code' => 'required|min:4|max:255|string|unique:promotions,code,' . $id,
+            'discount' => 'required|numeric|min:0|max:100',
             'start_time' => 'required|date|date_format:Y-m-d',
             'end_time' => [
                 'required',
                 'date',
                 'date_format:Y-m-d',
                 'after_or_equal:start_time',
-                function($attribute,$value,$fail){
-                      // Kiểm tra xem end_time có trước ngày hiện tại không
-                if (strtotime($value) < strtotime(date('Y-m-d'))) {
-                    $fail('Ngày kết thúc không được trước ngày hiện tại.');
+                function ($attribute, $value, $fail) {
+                    // Kiểm tra xem end_time có trước ngày hiện tại không
+                    if (strtotime($value) < strtotime(date('Y-m-d'))) {
+                        $fail('Ngày kết thúc không được trước ngày hiện tại.');
+                    }
                 }
-            }
             ],
-            'status' =>'required|string',
-            'describe' =>'required|max:255|min:10',
+            'status' => 'required|string',
+            'describe' => 'required|max:255|min:10',
 
         ];
     }
@@ -50,13 +49,9 @@ class UpdatePromotionRequest extends FormRequest
             'code.unique' => 'Mã đã tồn tại.',
             //discount
             'discount.required' => 'Giá giảm không được để trống.',
-            'discount.max' => 'Giá giảm không được quá 255 ký tự.',
+            'discount.max' => 'Giá giảm không được quá 100%.',
             'discount.numeric' => 'Giá giảm phải là số.',
             'discount.min' => 'Giá giảm không được là số âm.',
-            //number_use
-            'number_use.required' => 'Số lần không được để trống.',
-            'number_use.numeric' => 'Số lần phải là số.',
-            'number_use.min' => 'Số lần không được là số âm.',
             //start_time
             'start_time.required' => 'Ngày bắt đầu là bắt buộc.',
             'start_time.date' => 'Ngày bắt đầu không hợp lệ.',
@@ -72,9 +67,8 @@ class UpdatePromotionRequest extends FormRequest
             'describe.min' => 'Mô tả không được ít hơn 2 ký tự.',
             //status
             'status.required' => 'trạng thái không được để trống.',
-            'status.string' => 'trạng thái phải là chuỗi.', 
+            'status.string' => 'trạng thái phải là chuỗi.',
 
         ];
-
     }
 }

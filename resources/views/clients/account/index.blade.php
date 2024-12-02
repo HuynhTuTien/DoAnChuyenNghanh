@@ -137,7 +137,7 @@
                                             <h6 class="card-title">Mã khuyến mãi: <span
                                                     id="promo-code-{{ $promotion->id }}">{{ $promotion->code }}</span>
                                             </h6>
-                                            <p class="card-text">Số lần sử dụng: {{ $promotion->number_use }}</p>
+
                                             <button type="button" class="btn btn-primary"
                                                 onclick="copyToClipboard('promo-code-{{ $promotion->id }}')">Copy</button>
                                         </div>

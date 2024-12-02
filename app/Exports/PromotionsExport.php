@@ -19,7 +19,6 @@ class PromotionsExport implements FromCollection, WithHeadings
             'ID',
             'Mã khuyến mãi',
             'Giá giảm',
-            'Số lần sử dụng',
             'Ngày bắt đầu',
             'Ngày kết thúc',
             'Trạng thái',

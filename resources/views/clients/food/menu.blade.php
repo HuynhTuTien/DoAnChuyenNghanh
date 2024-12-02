@@ -177,17 +177,23 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-8 col-md-12 wow fadeInRight align-items-center">
                             <div class="gallery-img-1 gallery-img-01">
-                                <h5 class="margin-bottom-10">Super sale</h5>
-                                <p>Sale off 50% chỉ trong tuần này</p>
+                                @foreach ($promotions as $promotion)
+                                <h5><strong></strong> {{ $promotion->describe }}</h5>
 
+                                    <p><strong>Giảm giá:</strong> {{ $promotion->discount }}%</p>
+                                    <p><strong>Từ ngày: </strong>{{ \Carbon\Carbon::parse($promotion->start_time)->format('d-m-Y') }}
+                                    <strong>Đến ngày: </strong>{{ \Carbon\Carbon::parse($promotion->end_time)->format('d-m-Y') }}</p>
+                                @endforeach
                                 <a href="#" class="btn">Đặt ngay</a>
-                                <img src="{{ asset('assets/client/images/menu-item/mg2.png') }}" alt="">
+                                <img src="{{ asset('assets/client/images/menu-item/chicken-banner.png') }}" alt="">
                                 <span class="yellow"><img src="{{ asset('assets/client/images/shapes/37.png') }}"
                                         alt=""></span>
                                 <span class="gs1"><img src="{{ asset('assets/client/images/shapes/bbs.png') }}"
                                         alt=""></span>
                             </div>
+
                         </div>
+
                     </div>
                 </div>
             </div>

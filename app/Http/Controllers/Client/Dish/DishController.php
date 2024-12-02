@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Support\Facades\DB;
 use App\Models\Dish;
 use App\Models\Review;
+use App\Models\Promotion; // Import model Promotion
 use App\Http\Controllers\Client\Review\ReviewController;
 
 class DishController extends Controller
@@ -31,15 +32,25 @@ class DishController extends Controller
     {
         // Sử dụng Eloquent để lấy danh mục và món ăn liên quan
         $categories = Category::with('dishes')->limit(5)->get();
+        // Lấy các khuyến mãi đang hoạt động
+        $promotions = Promotion::where('status', 'active')
+            ->where('start_time', '<=', now())
+            ->where('end_time', '>=', now())
+            ->get();
 
-        return view('clients.food.menu', compact('categories'));
+        return view('clients.food.menu', compact('categories', 'promotions'));
     }
 
     public function dishCategories()
     {
         // Lấy tất cả danh mục và sản phẩm tương ứng của từng danh mục
         $categories = Category::with('dishes')->orderBy('created_at', 'desc')->limit(4)->get();
+        // Lấy các khuyến mãi đang hoạt động
+        $promotions = Promotion::where('status', 'active')
+            ->where('start_time', '<=', now())
+            ->where('end_time', '>=', now())
+            ->get();
 
-        return view('clients.food.menu', compact('categories'));
+        return view('clients.food.menu', compact('categories', 'promotions'));
     }
 }

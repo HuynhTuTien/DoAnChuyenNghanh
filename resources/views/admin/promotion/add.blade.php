@@ -16,9 +16,6 @@
                             <div class="card-body pt-0">
                                 <form action="{{ route('promotion.store') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
-
-                                    <!-- Kiểm tra lỗi toàn bộ form -->
-
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="mb-3">
@@ -33,7 +30,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="mb-3">
-                                                <label for="discount" class="form-label">Giá giảm</label>
+                                                <label for="discount" class="form-label">Giá giảm %</label>
                                                 <input type="text" class="form-control" name="discount" id="discount"
                                                     placeholder="Nhập giá giảm" value="{{ old('discount') }}" />
                                                 <!-- Hiển thị lỗi cho trường discount -->
@@ -42,17 +39,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <div class="mb-3">
-                                                <label for="number_use" class="form-label">Số lần sử dụng</label>
-                                                <input type="text" class="form-control" name="number_use" id="number_use"
-                                                    placeholder="Nhập giá giảm" value="{{ old('number_use') }}" />
-                                                <!-- Hiển thị lỗi cho trường number_use -->
-                                                @error('number_use')
-                                                    <span class="text-danger">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                        </div>
+
                                         <div class="col-lg-6">
                                             <div class="mb-3">
                                                 <label for="status" class="form-label">Trạng thái</label>
@@ -97,7 +84,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <button class="btn btn-primary">Thêm</button>
+                                    <button type="submit" class="btn btn-primary">Thêm</button>
                                 </form>
                             </div>
                         </div>

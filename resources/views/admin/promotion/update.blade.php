@@ -35,7 +35,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="mb-3">
-                                                <label for="discount" class="form-label">Giá giảm</label>
+                                                <label for="discount" class="form-label">Giá giảm %</label>
                                                 <input type="text" class="form-control" name="discount" id="discount"
                                                     placeholder="Nhập giá giảm"
                                                     value="{{ old('discount', $promotion->discount) }}" />
@@ -45,32 +45,8 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <div class="mb-3">
-                                                <label for="number_use" class="form-label">Số lần sử dụng</label>
-                                                <input type="text" class="form-control" name="number_use" id="number_use"
-                                                    value="{{ old('number_use',$promotion->number_use) }}" />
-                                                <!-- Hiển thị lỗi cho trường number_use -->
-                                                @error('number_use')
-                                                    <span class="text-danger">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="mb-3">
-                                                <label for="status" class="form-label">Trạng thái</label>
-                                                <select class="default-select form-control wide" name="status" id="status">
-                                                    <option value="active" {{ $promotion->status == 'active' ? 'selected' : '' }}>Hoạt động
-                                                    </option>
-                                                    <option value="inactive" {{ $promotion->status == 'inactive' ? 'selected' : '' }}>Không hoạt động
-                                                    </option>
-                                                </select>
-                                                <!-- Hiển thị lỗi cho trường status -->
-                                                @error('status')
-                                                    <span class="text-danger">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                        </div>
+
+
                                         <div class="col-lg-6">
                                             <div class="mb-3">
                                                 <label for="start_time" class="form-label">Ngày bắt đầu</label>
@@ -101,8 +77,28 @@
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label for="status" class="form-label">Trạng thái</label>
+                                                <select class="default-select form-control wide" name="status" id="status">
+                                                    <option value="active" {{ $promotion->status == 'active' ? 'selected' : '' }}>Hoạt động
+                                                    </option>
+                                                    <option value="inactive" {{ $promotion->status == 'inactive' ? 'selected' : '' }}>Không hoạt động
+                                                    </option>
+                                                </select>
+                                                <!-- Hiển thị lỗi cho trường status -->
+                                                @error('status')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+
+                                            </div>
+                                        </div>
                                     </div>
-                                    <button class="btn btn-primary">Thêm</button>
+                                    <button type="submit" class="btn btn-primary">Cập nhập</button>
                                 </form>
                             </div>
                         </div>
