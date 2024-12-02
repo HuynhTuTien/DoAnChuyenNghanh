@@ -18,17 +18,28 @@ class Ingredient extends Model
         $this->save();
     }
 
-
-    // Quan hệ với món ăn
-    // public function dishes()
-    // {
-    //     return $this->belongsToMany(Dish::class, 'dishes_ingredients')
-    //         ->withPivot('quantity');  // quantity là số lượng nguyên liệu của món ăn
-    // }
     public function dishes()
     {
         return $this->belongsToMany(Dish::class, 'dishes_ingredients')
             ->withPivot('quantity')
             ->withTimestamps();
+    }
+
+
+    // Trong Model Dish hoặc Ingredient
+    public function addIngredient($ingredientId, $quantity)
+    {
+        // Chuyển đổi quantity thành kiểu DECIMAL(10, 2) trước khi lưu vào DB
+        $quantity = number_format($quantity, 2, '.', '');
+
+        $this->ingredients()->attach($ingredientId, ['quantity' => $quantity]);
+    }
+
+    public function updateIngredient($ingredientId, $quantity)
+    {
+        // Chuyển đổi quantity thành kiểu DECIMAL(10, 2) trước khi cập nhật vào DB
+        $quantity = number_format($quantity, 2, '.', '');
+
+        $this->ingredients()->updateExistingPivot($ingredientId, ['quantity' => $quantity]);
     }
 }

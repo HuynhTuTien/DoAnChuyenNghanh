@@ -148,7 +148,6 @@
         <div class="common-title-area text-center padding-50 wow fadeInUp">
             <h3>Thưởng Thức Món Ngon
             </h3>
-            <h2><span>menu</span></h2>
         </div>
         <!-- menu-nav-wrapper -->
         <div class="menu-nav-wrapper">

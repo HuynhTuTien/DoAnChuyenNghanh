@@ -62,9 +62,6 @@
                         </button>
                     </li>
                 </ul>
-                <div>
-                    <a href="{{ route('user.create') }}" class="btn btn-primary me-1">Thêm Người Dùng</a>
-                </div>
             </div>
             <div class="row">
                 <div class="col-xl-12">
@@ -82,8 +79,9 @@
                                                     <th>Tên</th>
                                                     <th>Email</th>
                                                     <th>Điện Thoại</th>
-                                                    <th>Địa Chỉ</th>
+
                                                     <th>Quyền</th>
+                                                    {{-- <th>Trạng Thái</th> --}}
                                                     <th>Hành Động</th>
                                                 </tr>
                                             </thead>
@@ -94,8 +92,11 @@
                                                         <td><span>{{ $item->name }}</span></td>
                                                         <td><span>{{ $item->email }}</span></td>
                                                         <td><span>{{ $item->phone }}</span></td>
-                                                        <td><span>{{ $item->address }}</span></td>
+
                                                         <td><span>{{ $item->role }}</span></td>
+                                                        {{-- <td><span class="badge light {{ $item->active == 'active' ? 'badge-success' : 'badge-danger' }}">
+                                                            {{ $item->active == 'active' ? 'hoạt động' : 'Đã khóa' }}
+                                                        </span></td> --}}
                                                         <td>
                                                             <div class="dropdown">
                                                                 <div class="btn-link" data-bs-toggle="dropdown">
@@ -123,9 +124,9 @@
                                                                 </div>
                                                                 <div class="dropdown-menu dropdown-menu-right"
                                                                     style="">
-                                                                    <a class="dropdown-item"
+                                                                    {{-- <a class="dropdown-item"
                                                                         href="{{ route('user.edit', $item->id) }}">Chỉnh
-                                                                        sửa</a>
+                                                                        sửa</a> --}}
                                                                     <form action="{{ route('user.destroy', $item->id) }}"
                                                                         method="POST" style="display: inline;">
                                                                         @csrf
@@ -146,8 +147,12 @@
                             </div>
                         </div>
                         <!-- Staff Tab -->
+
                         <div class="tab-pane fade" id="staff-tab-pane" role="tabpanel" aria-labelledby="staff-tab"
                             tabindex="0">
+                            <div>
+                                <a href="{{ route('user.create') }}" class="btn btn-primary me-1">Thêm nhân viên</a>
+                            </div>
                             <div class="card mt-2">
                                 <div class="card-body p-0">
                                     <div class="table-responsive active-projects style-1 ItemsCheckboxSec shorting ">

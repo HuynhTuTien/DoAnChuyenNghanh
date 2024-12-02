@@ -8,7 +8,7 @@
             <div class="col-xl-12 col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Thêm người dùng</h4>
+                        <h4 class="card-title">Thêm nhân viên</h4>
                     </div>
                     <div class="card-body">
                         <div class="basic-form">
@@ -92,15 +92,7 @@
                                     @if(auth()->user()->role == 'admin')
                                         <!-- Nếu người dùng hiện tại là admin, cho phép chọn quyền cho người khác -->
                                         <div class="mb-3">
-                                            <label class="form-label">Quyền: <span class="text-danger">*</span></label>
-                                            <select class="default-select form-control wide" name="role" id="role">
-                                                <option value="" disabled selected>Chọn quyền</option>
-                                                <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-                                                <option value="staff" {{ old('role') == 'staff' ? 'selected' : '' }}>Nhân viên</option>
-                                            </select>
-                                            @error('role')
-                                                <span class="text-danger"> {{ $message }} </span>
-                                            @enderror
+                                            <input type="hidden" name="role" value="staff">
                                         </div>
                                     @else
                                         <!-- Nếu không phải admin, quyền "user" sẽ tự động được gán -->
@@ -108,8 +100,8 @@
                                     @endif
 
                                     <div>
+                                        <a href="{{ route('user.list') }}" class="btn btn-danger">Hủy bỏ</a>
                                         <button type="submit" class="btn btn-primary">Thêm</button>
-                                        <a href="{{ route('user.create') }}" class="btn btn-danger">Hủy bỏ</a>
                                     </div>
                                 </div>
                             </form>

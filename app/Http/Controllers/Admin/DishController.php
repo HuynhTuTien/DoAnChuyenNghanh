@@ -108,35 +108,42 @@ class DishController extends Controller
         ]);
     }
 
-
-    // Hàm thêm nguyên liệu vào món ăn
     public function storeIngredient(Request $request, $slug)
     {
+        // Cập nhật validation để yêu cầu nhập giá trị DECIMAL (số thập phân)
         $request->validate([
             'ingredient_id' => 'required|exists:ingredients,id',
-            'quantity' => 'required|integer|min:1',
+            'quantity' => 'required|numeric|min:0.01|regex:/^\d+(\.\d{1,2})?$/', // Kiểm tra số thập phân với 2 chữ số sau dấu
         ]);
 
         $dish = Dish::where('slug', $slug)->firstOrFail();
+
+        // Thêm nguyên liệu với quantity là kiểu số thập phân
         $dish->addIngredient($request->ingredient_id, $request->quantity);
 
         flash()->success('Thêm nguyên liệu thành công.');
         return redirect()->route('dish.ingredients', $slug);
     }
 
-    // Hàm cập nhật số lượng nguyên liệu của món ăn
+
     public function updateIngredientQuantity(Request $request, $slug, $ingredientId)
     {
+        // Cập nhật validation để yêu cầu nhập giá trị DECIMAL (số thập phân)
         $request->validate([
-            'quantity' => 'required|integer|min:1',
+            'quantity' => 'required|numeric|min:0.01|regex:/^\d+(\.\d{1,2})?$/', // Kiểm tra số thập phân với 2 chữ số sau dấu
         ]);
 
         $dish = Dish::where('slug', $slug)->firstOrFail();
+
+        // Cập nhật số lượng nguyên liệu với kiểu dữ liệu DECIMAL
         $dish->updateIngredient($ingredientId, $request->quantity);
 
         flash()->success('Cập nhật nguyên liệu thành công.');
         return redirect()->route('dish.ingredients', $slug);
     }
+
+
+
 
     // Hàm xóa nguyên liệu khỏi món ăn
     public function deleteIngredient($slug, $ingredientId)

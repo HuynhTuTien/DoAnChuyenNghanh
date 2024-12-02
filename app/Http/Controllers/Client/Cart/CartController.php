@@ -38,7 +38,6 @@ class CartController extends Controller
         return $this->updateCart();
     }
 
-
     public function removeFromCart(Request $request, $itemId)
     {
         $userId = auth()->id();  // Lấy ID người dùng hiện tại
@@ -75,8 +74,6 @@ class CartController extends Controller
         return $this->updateCart();  // Cập nhật lại giỏ hàng sau khi làm sạch
     }
 
-
-
     public function update(Request $request)
     {
         // Cập nhật giỏ hàng với thông tin mới từ request
@@ -94,7 +91,6 @@ class CartController extends Controller
         // Cập nhật lại giỏ hàng và chuyển về trang giỏ hàng
         return redirect()->route('cart');
     }
-
 
     // Hàm để cập nhật lại giỏ hàng
     private function updateCart()
@@ -126,37 +122,36 @@ class CartController extends Controller
         return redirect()->route('cart')->with('cartSummary', $cartSummary);
     }
 
-
     private function applyAutoDiscount()
     {
-        // Lấy mã giảm giá duy nhất đang hoạt động
-        $promotion = Promotion::where('status', 'active')  // Giả sử có cột status để kiểm tra trạng thái mã giảm giá
-            ->where('end_time', '>=', now()) // Kiểm tra mã giảm giá chưa hết hạn
-            ->first(); // Lấy mã giảm giá đầu tiên đang hoạt động
+        // Lấy mã giảm giá hợp lệ
+        $promotion = Promotion::where('status', 'active')
+            ->where('end_time', '>=', now())
+            ->where('number_use', '>', 0) // Kiểm tra số lần sử dụng
+            ->first();
 
         if ($promotion) {
-            // Mã giảm giá hợp lệ
-            $discount = $promotion->discount;
+            // Tính toán giảm giá theo phần trăm
+            $discountPercentage = $promotion->discount; // Ví dụ: $promotion->discount = 10 (tức là giảm 10%)
 
-            // Cập nhật số lần sử dụng của mã giảm giá
+            // Giảm số lần sử dụng của mã giảm giá
             $promotion->decrement('number_use');
 
-            // Lấy tổng giỏ hàng của người dùng
-            $cartItems = Cart::where('user_id', auth()->id())->get();
-            $total = $cartItems->sum('total_price'); // Tổng giá trị giỏ hàng chưa áp dụng giảm giá
+            // Lấy tổng giỏ hàng
+            $total = Cart::where('user_id', auth()->id())->sum('total_price');
 
-            // Tính toán lại tổng sau khi áp dụng mã giảm giá
-            $discountedTotal = $total - $discount;
+            // Tính toán số tiền giảm giá dựa trên phần trăm
+            $discountAmount = ($total * $discountPercentage) / 100; // Giảm theo phần trăm
 
-            // Lưu tổng giỏ hàng sau giảm giá và giá trị giảm giá vào session
-            session(['discounted_total' => $discountedTotal]);
-            session(['discount_value' => $discount]);
+            // Tính tổng giỏ hàng sau khi áp dụng giảm giá
+            $discountedTotal = max(0, $total - $discountAmount); // Đảm bảo tổng không âm
 
-            // Thông báo thành công
-            flash()->success('Mã giảm giá tự động đã được áp dụng thành công!');
+            // Lưu vào session
+            session(['discounted_total' => $discountedTotal, 'discount_value' => $discountAmount]);
+
+            flash()->success('Mã giảm giá đã được áp dụng!');
         } else {
-            // Nếu không có mã giảm giá hợp lệ, thông báo lỗi
-            flash()->error('Không có mã giảm giá nào đang hoạt động!');
+            flash()->error('Không có mã giảm giá hợp lệ.');
         }
     }
 }

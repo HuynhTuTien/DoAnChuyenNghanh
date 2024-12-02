@@ -39,8 +39,10 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="quantity">Số lượng</label>
-                                        <input type="number" name="quantity" id="quantity" class="form-control" required>
+                                        <input type="text" name="quantity" id="quantity" class="form-control"
+                                               pattern="^\d+(\.\d{1,2})?$" title="Nhập số thập phân với tối đa 2 chữ số sau dấu chấm" required>
                                     </div>
+
 
                                     <div class="form-group">
                                         <label for="unit">Đơn vị</label>
@@ -53,7 +55,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="price">Giá</label>
+                                        <label for="price">Đơn giá nhập</label>
                                         <input type="number" name="price" id="price" class="form-control" required>
                                     </div>
 

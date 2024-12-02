@@ -10,6 +10,7 @@ use App\Models\Order;
 use App\Models\Payment;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PaymentSuccessMail;
+use App\Models\Promotion;
 
 class CheckoutController extends Controller
 {
@@ -70,7 +71,6 @@ class CheckoutController extends Controller
         return view('clients.checkout.checkout', compact('cartItems', 'totalPrice', 'discount', 'totalPriceAfterDiscount', 'districts'));
     }
 
-
     public function processPayment(Request $request)
     {
         // Validate thông tin người dùng
@@ -102,7 +102,12 @@ class CheckoutController extends Controller
 
         $orderCode = 'DH-' . strtoupper(str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT));
 
-        // Tạo đơn hàng mới
+        // Lấy mã giảm giá nếu có
+        $promotion = Promotion::where('status', 'active')
+            ->where('end_time', '>=', now()) // Kiểm tra mã giảm giá còn hạn
+            ->first();
+
+        // Tạo đơn hàng mới và lưu `promotion_id`
         $order = Order::create([
             'user_id' => $userId,
             'name' => $request->name,
@@ -116,6 +121,7 @@ class CheckoutController extends Controller
             'ward' => $request->payment_option === 'delivery' ? $request->ward : null, // Lưu phường
             'store_visit_time' => $request->payment_option === 'store' ? $request->store_visit_time : null, // Lưu thời gian tới cửa hàng, chỉ khi chọn "store"
             'total_amount' => $totalPriceAfterDiscount,
+            'promotion_id' => $promotion ? $promotion->id : null, // Lưu mã giảm giá nếu có
         ]);
 
         foreach ($cartItems as $cartItem) {
@@ -153,6 +159,9 @@ class CheckoutController extends Controller
 
         // Xóa giỏ hàng
         Cart::where('user_id', $userId)->delete();
+
+        // Xóa session giảm giá sau khi thanh toán
+        session()->forget(['discounted_total', 'discount_value']);
 
         // Gửi email thông báo
         try {

@@ -106,7 +106,7 @@
                                         @enderror
                                     </div>
 
-                                    <!-- Role -->
+                                    {{-- <!-- Role -->
                                     <div class="mb-3 col-md-6">
                                         <label class="form-label">Quyền: <span class="text-danger">*</span></label>
                                         <select class="default-select form-control wide" name="role" id="role" required>
@@ -119,7 +119,7 @@
                                         @error('role')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
-                                    </div>
+                                    </div> --}}
 
                                     <!-- Hoạt động -->
                                     <div class="mb-3 col-md-6">
@@ -138,12 +138,12 @@
                                     </div>
 
                                     <div>
-                                        <button type="submit" class="btn btn-primary">Cập nhật</button>
                                         <a href="{{ route('user.list') }}" class="btn btn-danger">Hủy bỏ</a>
+                                        <button type="submit" class="btn btn-primary">Cập nhật</button>
                                     </div>
                                 </div>
                             </form>
-                            {{-- <a href="{{ route('user.list') }}" class="btn btn-danger">Hủy bỏ</a> --}}
+
                         </div>
                     </div>
                 </div>

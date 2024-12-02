@@ -125,7 +125,7 @@
                         </div>
                         <div class="info-content text-center text-lg-left">
                             <h5>Giờ mở cửa</h5>
-                            <p>Hằng ngày 11.00 PM - 11.00 AM</p>
+                            <p>Hằng ngày 08.00 PM - 11.00 AM</p>
                         </div>
                     </div>
                 </div>

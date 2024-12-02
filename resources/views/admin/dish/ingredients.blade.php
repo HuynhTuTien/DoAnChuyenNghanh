@@ -62,8 +62,9 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="quantity">Số lượng:</label>
-                                    <input type="number" name="quantity" required min="1" class="form-control">
+                                    <label for="quantity">Số lượng</label>
+                                    <input type="text" name="quantity" id="quantity" class="form-control"
+                                           pattern="^\d+(\.\d{1,2})?$" title="Nhập số thập phân với tối đa 2 chữ số sau dấu chấm" required>
                                 </div>
 
                                 <button type="submit" class="btn btn-success mt-2 mb-3">Thêm nguyên liệu</button>

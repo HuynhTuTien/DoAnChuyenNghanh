@@ -76,7 +76,7 @@
                 </a>
                 <ul aria-expanded="false">
                     <li><a href="{{ route('user.list') }}">Danh sách người dùng</a></li>
-                    <li><a href="{{ route('user.create') }}">Thêm người dùng</a></li>
+                    <li><a href="{{ route('user.create') }}">Thêm nhân viên</a></li>
                 </ul>
             </li>
             <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
