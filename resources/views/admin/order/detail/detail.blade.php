@@ -20,7 +20,7 @@
                                         <strong>Tên khách hàng:</strong> {{ $order->name }}
                                     </div>
                                     <div class="mb-3">
-                                        <strong>Số điện thoại:</strong> {{ $order->phone }}
+                                        <strong>Số điện thoại:</strong> {{ $order->phone_number }}
                                     </div>
                                     <div class="mb-3">
                                         <strong>Địa chỉ giao hàng:</strong>
@@ -63,7 +63,6 @@
                                         </div>
                                     @endforeach
                                     <hr>
-
 
                                     <!-- Thông tin thanh toán và Cập nhật trạng thái đơn hàng cùng 1 hàng ngang -->
                                     <div class="d-flex justify-content-between">
@@ -126,19 +125,14 @@
                                             <button type="submit" class="btn btn-primary mt-3">Cập nhật trạng thái</button>
                                         </form>
                                     </div>
-
-
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-
         </div>
         <a href="{{ route('order.list') }}" class="btn btn-secondary mt-3">Quay lại</a>
-
     </div>
 @endsection
 

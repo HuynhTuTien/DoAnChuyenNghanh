@@ -63,7 +63,6 @@ Route::get('404', [ErrorController::class, 'index']);
 Route::get('tai-khoan', [AccountController::class, 'index'])->name('account');
 Route::get('lien-he', [ContactController::class, 'index'])->name('contact');
 
-Route::get('thanh-toan', [CheckoutController::class, 'index'])->name('checkout');
 Route::get('gio-hang', [CartController::class, 'index'])->name('cart')->middleware('auth');
 Route::post('them-gio-hang', [CartController::class, 'addToCart'])->name('cartAdd')->middleware('auth');
 
@@ -72,9 +71,7 @@ Route::delete('/gio-hang/{itemId}', [CartController::class, 'removeFromCart'])->
 Route::delete('cart/clear', [CartController::class, 'clear'])->name('cart.clear')->middleware('auth');
 Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update')->middleware('auth');
 Route::post('nhap-ma-uu-dai', [CartController::class, 'applyDiscountCode'])->name('applyDiscountCode')->middleware('auth');
-Route::get('thanh-toan', [CheckoutController::class, 'index'])->name('checkout');
-Route::post('thanh-toan', [CheckoutController::class, 'checkout'])->name('checkout.store');
-Route::post('thanh-toan/tien-hanh', [CheckoutController::class, 'processPayment'])->name('payment.process');
+
 Route::get('/vnpay/return', [PaymentController::class, 'vnpayReturn'])->name('vnpay.return');
 Route::post('/check-table-availability', [CartController::class, 'checkTableAvailability'])->name('check.table.availability');
 
@@ -198,7 +195,14 @@ Route::name('ingredient.')->prefix('ingredient')->middleware(['auth', 'role:admi
 });
 
 
-Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
+//Tiến hành thanh toán
+Route::get('thanh-toan', [CheckoutController::class, 'index'])->name('checkout');
+Route::get('thanh-toan', [CheckoutController::class, 'index'])->name('checkout');
+
+Route::post('thanh-toan', [CheckoutController::class, 'checkout'])->name('checkout.store');
+Route::get('thanh-toan', [CheckoutController::class, 'checkout'])->name('checkout');
+
+Route::post('thanh-toan/tien-hanh', [CheckoutController::class, 'processPayment'])->name('payment.process');
 Route::post('/checkout', [CheckoutController::class, 'processPayment'])->name('payment.process');
 
 

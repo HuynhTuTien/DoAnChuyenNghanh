@@ -326,6 +326,64 @@
                             </div>
                         </div>
 
+                        <div class="col-xl-12 col-lg-12">
+                            <div class="card dz-card" id="bootstrap-table1">
+                                <h4 id="quarter-year-title" class="p-4 pb-0 text-lg card-title">So sánh doanh thu giữa hai quý</h4>
+                                <!-- Form lọc -->
+                                <div class="card-body row">
+                                    <div class="col-lg-6">
+                                        <h4 class="card-title" id="revenue-quarter1">Doanh thu quý </h4>
+                                        <div class="">
+                                            <label for="quarter1">Quý:</label>
+                                            {{-- <select name="quarter1" id="quarter1" class="form-control">
+                                                <option value="1" {{ $quarter1 == 1 ? 'selected' : '' }}>Quý 1</option>
+                                                <option value="2" {{ $quarter1 == 2 ? 'selected' : '' }}>Quý 2</option>
+                                                <option value="3" {{ $quarter1 == 3 ? 'selected' : '' }}>Quý 3</option>
+                                                <option value="4" {{ $quarter1 == 4 ? 'selected' : '' }}>Quý 4</option>
+                                            </select> --}}
+                                        </div>
+                                        <div class="">
+                                            <label for="year1">Năm:</label>
+                                            <select name="year1" id="year1" class="form-control">
+                                                @for ($i = now()->year; $i >= 2022; $i--)
+                                                    <option value="{{ $i }}" {{ $year1 == $i ? 'selected' : '' }}>
+                                                        {{ $i }}
+                                                    </option>
+                                                @endfor
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <h4 class="card-title" id="revenue-quarter2">Doanh thu quý </h4>
+                                        <div class="">
+                                            <label for="quarter2">Quý:</label>
+                                            {{-- <select name="quarter2" id="quarter2" class="form-control">
+                                                <option value="1" {{ $quarter2 == 1 ? 'selected' : '' }}>Quý 1</option>
+                                                <option value="2" {{ $quarter2 == 2 ? 'selected' : '' }}>Quý 2</option>
+                                                <option value="3" {{ $quarter2 == 3 ? 'selected' : '' }}>Quý 3</option>
+                                                <option value="4" {{ $quarter2 == 4 ? 'selected' : '' }}>Quý 4</option>
+                                            </select> --}}
+                                        </div>
+                                        <div class="">
+                                            <label for="year2">Năm:</label>
+                                            <select name="year2" id="year2" class="form-control">
+                                                @for ($i = now()->year; $i >= 2022; $i--)
+                                                    <option value="{{ $i }}" {{ $year2 == $i ? 'selected' : '' }}>
+                                                        {{ $i }}
+                                                    </option>
+                                                @endfor
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-4 mb-3">
+                                    <h4 class="card-title" id="percentage-differenceQuarter">Chênh lệch: <span
+                                            id="percentage-differenceQuarter-value"></span>%</h4>
+                                </div>
+                            </div>
+                        </div>
+
+
                     </div>
 
 
@@ -429,7 +487,7 @@
                 // Cập nhật dữ liệu so sánh
                 revenueMonth1.text(`Doanh thu tháng ${month1}/${year1}: ${response.revenue_month1}`);
                 revenueMonth2.text(`Doanh thu tháng ${month2}/${year2}: ${response.revenue_month2}`);
-                
+
                 // Đảm bảo rằng giá trị phần trăm không bị undefined hoặc lỗi
                 if(response.percentage_differenceMonth !== undefined) {
                     percentageDifferenceMonth.text(response.percentage_differenceMonth);
@@ -454,6 +512,55 @@
         var year2 = $('#year2').val();
         updateComparison(month1, year1, month2, year2);
     });
+
+
+    $(document).ready(function() {
+    function updateComparison(quarter1, year1, quarter2, year2) {
+        $.ajax({
+            url: '{{ route('statistical.filterSoDoanhThuQuy') }}',
+            method: 'POST',
+            data: {
+                quarter1: quarter1,
+                year1: year1,
+                quarter2: quarter2,
+                year2: year2,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                let revenueQuarter1 = $('#revenue-quarter1');
+                let revenueQuarter2 = $('#revenue-quarter2');
+                let percentageDifferenceQuarter = $('#percentage-differenceQuarter-value');
+
+                // Cập nhật dữ liệu so sánh
+                revenueQuarter1.text(`Doanh thu quý ${quarter1}/${year1}: ${response.revenue_quarter1}`);
+                revenueQuarter2.text(`Doanh thu quý ${quarter2}/${year2}: ${response.revenue_quarter2}`);
+
+                // Đảm bảo rằng giá trị phần trăm không bị undefined hoặc lỗi
+                if(response.percentage_differenceQuarter !== undefined) {
+                    percentageDifferenceQuarter.text(response.percentage_differenceQuarter);
+                } else {
+                    percentageDifferenceQuarter.text('Không có dữ liệu');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Lỗi AJAX:', status, error);
+            }
+        });
+    }
+
+    // Gọi hàm khi trang được tải
+    updateComparison($('#quarter1').val(), $('#year1').val(), $('#quarter2').val(), $('#year2').val());
+
+    // Gọi hàm khi chọn quý hoặc năm
+    $('#quarter1, #year1, #quarter2, #year2').on('change', function() {
+        var quarter1 = $('#quarter1').val();
+        var year1 = $('#year1').val();
+        var quarter2 = $('#quarter2').val();
+        var year2 = $('#year2').val();
+        updateComparison(quarter1, year1, quarter2, year2);
+    });
+});
+
 });
 
     </script>

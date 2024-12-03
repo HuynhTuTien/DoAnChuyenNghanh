@@ -67,16 +67,32 @@ class StatisticalController extends Controller
 
 
         $revenueMonth1 = Payment::whereBetween('payment_date', [$firstDayOfMonth1, $lastDayOfMonth1])
-        ->sum('total_amount');
+            ->sum('total_amount');
         $revenueMonth2 = Payment::whereBetween('payment_date', [$firstDayOfMonth2, $lastDayOfMonth2])
-        ->sum('total_amount');
+            ->sum('total_amount');
         $percentageDifferenceMonth = 0;
         if ($revenueMonth2 > 0) {
             $percentageDifferenceMonth = (($revenueMonth1 - $revenueMonth2) / $revenueMonth2) * 100;
         }
-        return view('admin.statistical.index', compact('month2','year2','year1','month1','statisticals', 'totalRevenue', 'statisticalsdates', 'date', 'totalRevenueday', 'statisticalmonths', 'year', 'month', 'totalRevenuemonth', 'day','currentMonthRevenue',
-        'percentageDifference','percentageDifferenceMonth'));
-
+        return view('admin.statistical.index', compact(
+            'month2',
+            'year2',
+            'year1',
+            'month1',
+            'statisticals',
+            'totalRevenue',
+            'statisticalsdates',
+            'date',
+            'totalRevenueday',
+            'statisticalmonths',
+            'year',
+            'month',
+            'totalRevenuemonth',
+            'day',
+            'currentMonthRevenue',
+            'percentageDifference',
+            'percentageDifferenceMonth'
+        ));
     }
     public function revenueChart(Request $request)
     {
@@ -201,28 +217,28 @@ class StatisticalController extends Controller
         $year1 = $request->input('year1', now()->format('Y'));
         $month2 = $request->input('month2', now()->format('m'));
         $year2 = $request->input('year2', now()->format('Y'));
-    
+
         try {
             // Tính doanh thu cho tháng đầu tiên
             $firstDayOfMonth1 = Carbon::createFromDate($year1, $month1, 1)->startOfMonth();
             $lastDayOfMonth1 = Carbon::createFromDate($year1, $month1, 1)->endOfMonth();
-    
+
             $revenueMonth1 = Payment::whereBetween('payment_date', [$firstDayOfMonth1, $lastDayOfMonth1])
                 ->sum('total_amount');
-    
+
             // Tính doanh thu cho tháng thứ hai
             $firstDayOfMonth2 = Carbon::createFromDate($year2, $month2, 1)->startOfMonth();
             $lastDayOfMonth2 = Carbon::createFromDate($year2, $month2, 1)->endOfMonth();
-    
+
             $revenueMonth2 = Payment::whereBetween('payment_date', [$firstDayOfMonth2, $lastDayOfMonth2])
                 ->sum('total_amount');
-    
+
             // Tính toán tỷ lệ phần trăm chênh lệch
             $percentageDifferenceMonth = 0;
             if ($revenueMonth2 > 0) {
                 $percentageDifferenceMonth = (($revenueMonth1 - $revenueMonth2) / $revenueMonth2) * 100;
             }
-    
+
             return response()->json([
                 'revenue_month1' => number_format($revenueMonth1) . ' VNĐ',
                 'revenue_month2' => number_format($revenueMonth2) . ' VNĐ',
@@ -233,9 +249,56 @@ class StatisticalController extends Controller
             return response()->json(['error' => 'Đã xảy ra lỗi'], 500);
         }
     }
-    
 
+
+    public function filterSoDoanhThuQuy(Request $request)
+    {
+        // Lấy quý và năm từ yêu cầu
+        $quarter1 = $request->input('quarter1', 1);  // Quý 1, 2, 3, 4
+        $year1 = $request->input('year1', now()->format('Y'));
+
+        $quarter2 = $request->input('quarter2', 1);  // Quý 1, 2, 3, 4
+        $year2 = $request->input('year2', now()->format('Y'));
+
+        try {
+            // Xác định ngày bắt đầu và kết thúc cho các quý
+            $quarters = [
+                1 => ['start' => '01-01', 'end' => '03-31'],
+                2 => ['start' => '04-01', 'end' => '06-30'],
+                3 => ['start' => '07-01', 'end' => '09-30'],
+                4 => ['start' => '10-01', 'end' => '12-31'],
+            ];
+
+            // Lấy ngày bắt đầu và kết thúc của quý đầu tiên
+            $startDateQuarter1 = Carbon::createFromFormat('Y-m-d', $year1 . '-' . $quarters[$quarter1]['start']);
+            $endDateQuarter1 = Carbon::createFromFormat('Y-m-d', $year1 . '-' . $quarters[$quarter1]['end']);
+
+            // Tính doanh thu cho quý đầu tiên
+            $revenueQuarter1 = Payment::whereBetween('payment_date', [$startDateQuarter1, $endDateQuarter1])
+                ->sum('total_amount');
+
+            // Lấy ngày bắt đầu và kết thúc của quý thứ hai
+            $startDateQuarter2 = Carbon::createFromFormat('Y-m-d', $year2 . '-' . $quarters[$quarter2]['start']);
+            $endDateQuarter2 = Carbon::createFromFormat('Y-m-d', $year2 . '-' . $quarters[$quarter2]['end']);
+
+            // Tính doanh thu cho quý thứ hai
+            $revenueQuarter2 = Payment::whereBetween('payment_date', [$startDateQuarter2, $endDateQuarter2])
+                ->sum('total_amount');
+
+            // Tính toán tỷ lệ phần trăm chênh lệch
+            $percentageDifferenceQuarter = 0;
+            if ($revenueQuarter2 > 0) {
+                $percentageDifferenceQuarter = (($revenueQuarter1 - $revenueQuarter2) / $revenueQuarter2) * 100;
+            }
+
+            return response()->json([
+                'revenue_quarter1' => number_format($revenueQuarter1) . ' VNĐ',
+                'revenue_quarter2' => number_format($revenueQuarter2) . ' VNĐ',
+                'percentage_differenceQuarter' => number_format($percentageDifferenceQuarter),
+            ]);
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+            return response()->json(['error' => 'Đã xảy ra lỗi'], 500);
+        }
+    }
 }
-
-
-

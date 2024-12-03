@@ -11,6 +11,7 @@ use App\Models\Payment;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PaymentSuccessMail;
 use App\Models\Promotion;
+use App\Http\Controllers\Admin\DishController;
 
 class CheckoutController extends Controller
 {
@@ -76,7 +77,12 @@ class CheckoutController extends Controller
         // Validate thông tin người dùng
         $request->validate([
             'name' => 'required|string|max:255',
-            'phone' => 'required|numeric|digits_between:10,11',
+            'phone_number' => [
+                'nullable',
+                'string',
+                'size:10',  // Yêu cầu độ dài 10 ký tự
+                'regex:/^(0[3|5|7|8|9])[0-9]{8}$|^(086|096|097|098|032|033|034|035|036|037|038|039|070|076|077|078|079|089|090|093|081|082|083|084|085|088|091|094|052|056|058|092|059|099|087)[0-9]{7}$/',  // Kiểm tra số điện thoại theo nhà mạng tại Việt Nam
+            ],
             'note' => 'nullable|string|max:1000',
             'paymentMethod' => 'required|in:restaurant,vnpay,momo', // Các phương thức thanh toán hợp lệ
             'payment_option' => 'required|in:store,delivery', // Dùng tại cửa hàng hoặc giao hàng
@@ -84,7 +90,26 @@ class CheckoutController extends Controller
             'district' => 'nullable|string|max:255|required_if:payment_option,delivery', // Quận, chỉ yêu cầu khi giao hàng
             'ward' => 'nullable|string|max:255|required_if:payment_option,delivery', // Phường, chỉ yêu cầu khi giao hàng
             'store_visit_time' => 'nullable|date_format:H:i|required_if:payment_option,store', // Thời gian tới cửa hàng, chỉ yêu cầu khi dùng tại cửa hàng
+        ], [
+            // Thông báo lỗi bằng tiếng Việt
+            'name.required' => 'Tên là bắt buộc.',
+            'name.string' => 'Tên phải là chuỗi ký tự.',
+            'name.max' => 'Tên không được vượt quá 255 ký tự.',
+
+            'phone_number.string' => 'Số điện thoại phải là chuỗi ký tự.',
+            'phone_number.size' => 'Số điện thoại phải có 10 ký tự.',
+            'phone_number.regex' => 'Số điện thoại không hợp lệ. Vui lòng nhập số điện thoại đúng định dạng của các nhà mạng Việt Nam.',
+
+            'note.max' => 'Ghi chú không được vượt quá 1000 ký tự.',
+
+            'delivery_address.required_if' => 'Địa chỉ giao hàng là bắt buộc nếu chọn giao hàng.',
+            'district.required_if' => 'Quận là bắt buộc nếu chọn giao hàng.',
+            'ward.required_if' => 'Phường là bắt buộc nếu chọn giao hàng.',
+
+            'store_visit_time.required_if' => 'Thời gian đến cửa hàng là bắt buộc nếu chọn tại cửa hàng.',
+            'store_visit_time.date_format' => 'Thời gian đến cửa hàng phải đúng định dạng HH:MM.',
         ]);
+
 
         $userId = auth()->id();
         $user = auth()->user();
@@ -112,6 +137,8 @@ class CheckoutController extends Controller
             'user_id' => $userId,
             'name' => $request->name,
             'phone' => $request->phone,
+            'phone_number' => $request->phone, // Lưu thêm vào cột 'phone_number'
+
             'note' => $request->note,
             'code_order' => $orderCode,
             'status' => 'Đang xử lý',
@@ -144,6 +171,9 @@ class CheckoutController extends Controller
 
                     // Trừ số lượng nguyên liệu
                     $ingredient->decrement('quantity', $quantityNeeded);
+
+                    //-------------------------------------------------------
+                    app(DishController::class)->updateDishQuantities();
                 }
             }
         }

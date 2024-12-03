@@ -26,6 +26,16 @@
     <div class="container">
         <form action="{{ route('payment.process') }}" method="POST">
             @csrf
+            @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
             <div class="row">
                 <!-- Cart Details -->
                 <div class="col-md-7">
@@ -71,18 +81,27 @@
                             <div class="mb-3">
                                 <label for="name" class="form-label">Họ tên</label>
                                 <input type="text" name="name" class="form-control" value="{{ old('name', $user->name ?? '') }}" required>
+                                @error('name')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <!-- Customer Phone -->
                             <div class="mb-3">
                                 <label for="phone" class="form-label">Số điện thoại</label>
                                 <input type="text" name="phone" class="form-control" value="{{ old('phone', $user->phone ?? '') }}" required>
+                                @error('phone')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <!-- Customer Note -->
                             <div class="mb-3">
                                 <label for="note" class="form-label">Ghi chú</label>
                                 <textarea name="note" class="form-control" rows="3">{{ old('note') }}</textarea>
+                                @error('note')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <!-- Payment Option Selection -->
@@ -92,6 +111,9 @@
                                     <option value="store" selected>Dùng tại cửa hàng</option>
                                     <option value="delivery">Giao hàng</option>
                                 </select>
+                                @error('payment_option')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <!-- Delivery Address Section -->
@@ -104,6 +126,9 @@
                                     <option value="Tân Bình">Tân Bình</option>
                                     <option value="Bình Tân">Bình Tân</option>
                                 </select>
+                                @error('district')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <!-- Ward Selection -->
@@ -112,18 +137,27 @@
                                 <select name="ward" id="ward" class="form-select">
                                     <option value="">Chọn Phường</option>
                                 </select>
+                                @error('ward')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <!-- Delivery Address Field -->
                             <div class="mb-3" id="deliveryAddressFieldWrapper" style="display: none;">
                                 <label for="deliveryAddress" class="form-label">Địa chỉ giao hàng</label>
                                 <textarea name="delivery_address" id="deliveryAddress" class="form-control" rows="3" placeholder="Nhập địa chỉ của bạn"></textarea>
+                                @error('delivery_address')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <!-- Store Visit Time Field -->
                             <div class="mb-3" id="storeTimeField" style="display: none;">
                                 <label for="storeTime" class="form-label">Chọn thời gian đến</label>
                                 <input type="time" name="store_visit_time" id="storeTime" class="form-control">
+                                @error('store_visit_time')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -153,6 +187,9 @@
                                     <option value="vnPay">Thanh toán VNPay</option>
                                     <option value="momo">Thanh toán MoMo</option>
                                 </select>
+                                @error('paymentMethod')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                             <button type="submit" class="btn btn-primary w-100">Thanh toán</button>
                         </div>
@@ -162,6 +199,7 @@
         </form>
     </div>
 </div>
+
 
 <script>
     // Toggle delivery fields

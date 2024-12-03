@@ -16,17 +16,19 @@ class Order extends Model
         'promotion_id',
         'user_id',
         'name',
+        'phone_number',
         'note',
         'code_order',
         'status',
         'order_date',
         'order_time',
-        'delivery_address', // Địa chỉ đầy đủ
-        'district',         // Quận
-        'ward',             // Phường
-        'payment_option',   // Phương thức thanh toán
+        'delivery_address',
+        'district',
+        'ward',
+        'payment_option',
         'store_visit_time',
     ];
+
 
     public function user(): BelongsTo
     {
@@ -63,12 +65,11 @@ class Order extends Model
         return $total;
     }
 
-
-
     public function order_dish()
     {
         return $this->hasMany(OrderDish::class);
     }
+
     public function orderDishes()
     {
         return $this->hasMany(OrderDish::class);
