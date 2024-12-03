@@ -94,6 +94,37 @@ class IngredientController extends Controller
     }
 
 
+    // // Lưu thông tin nhập liệu mới và cập nhật kho
+    // public function storeEntry(Request $request)
+    // {
+    //     $request->validate([
+    //         'ingredient_id' => 'required|exists:ingredients,id',
+    //         'supplier_id' => 'required|exists:suppliers,id',
+    //         'quantity' => 'required|numeric|min:0.01|regex:/^\d+(\.\d{1,2})?$/',
+    //         'unit' => 'nullable|string|max:20',
+    //         'price' => 'required|numeric|min:0',
+    //     ]);
+
+    //     // Tạo mới bản ghi nhập liệu
+    //     $entry = IngredientEntry::create([
+    //         'ingredient_id' => $request->ingredient_id,
+    //         'supplier_id' => $request->supplier_id,
+    //         'quantity' => $request->quantity,
+    //         'unit' => $request->unit,
+    //         'price' => $request->price,
+    //     ]);
+
+    //     // Cập nhật số lượng trong kho
+    //     $ingredient = Ingredient::find($request->ingredient_id);
+    //     $ingredient->updateQuantity($request->quantity);
+
+    //     // Gọi phương thức cập nhật số lượng món ăn
+    //     app(DishController::class)->updateDishQuantities();
+
+    //     return redirect()->route('ingredient.list')->with('success', 'Nguyên liệu đã được nhập thành công!');
+    // }
+
+
     // Lưu thông tin nhập liệu mới và cập nhật kho
     public function storeEntry(Request $request)
     {
@@ -105,14 +136,19 @@ class IngredientController extends Controller
             'price' => 'required|numeric|min:0',
         ]);
 
+        // Tính tổng tiền (quantity * price)
+        $totalPrice = $request->quantity * $request->price;
+
         // Tạo mới bản ghi nhập liệu
-        $entry = IngredientEntry::create([
+        IngredientEntry::create([
             'ingredient_id' => $request->ingredient_id,
             'supplier_id' => $request->supplier_id,
             'quantity' => $request->quantity,
             'unit' => $request->unit,
             'price' => $request->price,
+            'total_price' => $totalPrice, // Lưu giá trị tổng tiền
         ]);
+
 
         // Cập nhật số lượng trong kho
         $ingredient = Ingredient::find($request->ingredient_id);
@@ -123,6 +159,8 @@ class IngredientController extends Controller
 
         return redirect()->route('ingredient.list')->with('success', 'Nguyên liệu đã được nhập thành công!');
     }
+
+
 
 
     public function showEntryList()

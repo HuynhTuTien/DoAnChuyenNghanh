@@ -151,16 +151,39 @@ class CheckoutController extends Controller
             'promotion_id' => $promotion ? $promotion->id : null, // Lưu mã giảm giá nếu có
         ]);
 
-        foreach ($cartItems as $cartItem) {
-            // Gắn món ăn vào đơn hàng
-            $order->dishes()->attach($cartItem->dish_id, ['quantity' => $cartItem->quantity]);
+        // foreach ($cartItems as $cartItem) {
+        //     // Gắn món ăn vào đơn hàng
+        //     $order->dishes()->attach($cartItem->dish_id, ['quantity' => $cartItem->quantity]);
 
-            // Trừ số lượng món ăn
+        //     // Trừ số lượng món ăn
+        //     $dish = Dish::with('ingredients')->find($cartItem->dish_id);
+        //     if ($dish) {
+        //         $dish->decrement('quantity', $cartItem->quantity);
+
+        //         // Cập nhật số lượng nguyên liệu cần thiết
+        //         foreach ($dish->ingredients as $ingredient) {
+        //             $quantityNeeded = $ingredient->pivot->quantity * $cartItem->quantity;
+
+        //             // Kiểm tra nếu số lượng nguyên liệu trong kho đủ
+        //             if ($ingredient->quantity < $quantityNeeded) {
+        //                 return redirect()->route('cart')->with('error', "Không đủ nguyên liệu: {$ingredient->name} trong kho.");
+        //             }
+
+        //             // Trừ số lượng nguyên liệu
+        //             $ingredient->decrement('quantity', $quantityNeeded);
+
+        //             //-------------------------------------------------------
+        //             app(DishController::class)->updateDishQuantities();
+        //         }
+        //     }
+        // }
+
+
+
+        // Kiểm tra và thông báo nếu nguyên liệu không đủ, không trừ ngay
+        foreach ($cartItems as $cartItem) {
             $dish = Dish::with('ingredients')->find($cartItem->dish_id);
             if ($dish) {
-                $dish->decrement('quantity', $cartItem->quantity);
-
-                // Cập nhật số lượng nguyên liệu cần thiết
                 foreach ($dish->ingredients as $ingredient) {
                     $quantityNeeded = $ingredient->pivot->quantity * $cartItem->quantity;
 
@@ -168,14 +191,13 @@ class CheckoutController extends Controller
                     if ($ingredient->quantity < $quantityNeeded) {
                         return redirect()->route('cart')->with('error', "Không đủ nguyên liệu: {$ingredient->name} trong kho.");
                     }
-
-                    // Trừ số lượng nguyên liệu
-                    $ingredient->decrement('quantity', $quantityNeeded);
-
-                    //-------------------------------------------------------
-                    app(DishController::class)->updateDishQuantities();
                 }
             }
+        }
+
+        // Lưu món ăn vào đơn hàng
+        foreach ($cartItems as $cartItem) {
+            $order->dishes()->attach($cartItem->dish_id, ['quantity' => $cartItem->quantity]);
         }
 
         // Tạo bản ghi thanh toán

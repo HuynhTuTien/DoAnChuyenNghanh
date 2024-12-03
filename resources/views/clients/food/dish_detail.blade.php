@@ -86,9 +86,7 @@
                                 <input name="quantity" min="1" type="number" value="1" placeholder="1">
                             </span>
                             <span>
-                                <label for="stock">số lượng có sẵn</label>
-                                <input id="stock" min="1" type="number" value="{{ $dishDetail->quantity }}"
-                                    placeholder="0">
+                                <label for="stock">số lượng có sẵn: {{ $dishDetail->quantity }}</label>
                             </span>
                         </div>
                         <button type="submit" class="btn">Thêm vào giỏ hàng</button>

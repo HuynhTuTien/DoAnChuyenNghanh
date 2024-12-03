@@ -54,13 +54,41 @@ class OrderController extends Controller
             'status' => 'required|in:đang xử lý,đang vận chuyển,hoàn thành,đã hủy',
         ]);
 
-        $order = Order::findOrFail($id);
+        $order = Order::with(['dishes.ingredients'])->findOrFail($id);
+
+        // Kiểm tra nếu trạng thái chuyển sang "hoàn thành"
+        if ($request->status === 'hoàn thành' && $order->status !== 'hoàn thành') {
+            foreach ($order->dishes as $dish) {
+                // Trừ số lượng món ăn
+                $dish->decrement('quantity', $dish->pivot->quantity);
+
+                // Trừ số lượng nguyên liệu cần thiết
+                foreach ($dish->ingredients as $ingredient) {
+                    $quantityNeeded = $ingredient->pivot->quantity * $dish->pivot->quantity;
+
+                    // Kiểm tra nếu số lượng nguyên liệu trong kho đủ
+                    if ($ingredient->quantity < $quantityNeeded) {
+                        return redirect()->route('admin.order.show', ['id' => $id])
+                            ->with('error', "Không đủ nguyên liệu: {$ingredient->name} trong kho.");
+                    }
+
+                    // Trừ số lượng nguyên liệu
+                    $ingredient->decrement('quantity', $quantityNeeded);
+
+                    //-------------------------------------------------------
+                    app(DishController::class)->updateDishQuantities();
+                }
+            }
+        }
+
+        // Cập nhật trạng thái đơn hàng
         $order->status = $request->status;
         $order->save();
 
         return redirect()->route('admin.order.show', ['id' => $id])
             ->with('success', 'Trạng thái đơn hàng đã được cập nhật!');
     }
+
 
     public function generatePdf($id)
     {

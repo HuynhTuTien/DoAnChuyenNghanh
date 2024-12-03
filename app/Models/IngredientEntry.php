@@ -11,8 +11,23 @@ class IngredientEntry extends Model
 
     protected $table = 'ingredient_supplier'; // Chỉ định tên bảng
 
-    protected $fillable = ['ingredient_id', 'supplier_id', 'quantity', 'unit', 'price'];
+    protected $fillable = [
+        'ingredient_id',
+        'supplier_id',
+        'price',
+        'quantity',
+        'unit',
+        'total_price'
+    ];
 
+    // Thuộc tính cho tổng tiền (được tính tự động)
+    protected $appends = ['total_price'];
+
+    // Hàm tính tổng tiền
+    public function getTotalPriceAttribute()
+    {
+        return $this->quantity * $this->price;
+    }
     // Quan hệ với Ingredient và Supplier
     public function ingredient()
     {

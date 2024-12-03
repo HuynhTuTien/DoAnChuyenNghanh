@@ -49,6 +49,7 @@ class CartController extends Controller
             flash()->success($result['success']);
         }
 
+
         return $this->updateCart();
     }
 
