@@ -10,8 +10,15 @@ class Staffs extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
-        'name', 'image', 'phone', 'address', 'position', 'salary'
+        'name',
+        'image',
+        'phone',
+        'address',
+        'position',
+        'salary'
     ];
 
     public static function createNewStaff($validatedData)

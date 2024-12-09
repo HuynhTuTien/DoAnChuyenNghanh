@@ -21,7 +21,7 @@ class CategoryController extends Controller
             ->when($search, function ($query) use ($search) {
                 return $query->where('name', 'LIKE', "%{$search}%");
             })
-            ->orderBy('created_at', $sort)
+            ->orderBy('id', $sort)
             ->paginate(5)
             ->appends([
                 'search' => $search,

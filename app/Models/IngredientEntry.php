@@ -8,8 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class IngredientEntry extends Model
 {
     use HasFactory;
+    // public $timestamps = false;
 
-    protected $table = 'ingredient_supplier'; // Chỉ định tên bảng
+    public function setUpdatedAt($value)
+    {
+        return null;  // Trả về null để không thay đổi updated_at
+    }
+
+    protected $table = 'ingredient_supplier';
 
     protected $fillable = [
         'ingredient_id',

@@ -9,8 +9,13 @@ class Review extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
-        'user_id', 'dish_id', 'review', 'rating'
+        'user_id',
+        'dish_id',
+        'review',
+        'rating'
     ];
 
     public function user()

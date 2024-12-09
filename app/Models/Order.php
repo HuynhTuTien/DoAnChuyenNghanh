@@ -12,6 +12,8 @@ class Order extends Model
 {
     use HasFactory;
 
+    // public $timestamps = false;
+
     protected $fillable = [
         'promotion_id',
         'user_id',

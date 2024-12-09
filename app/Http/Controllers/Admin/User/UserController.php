@@ -26,7 +26,7 @@ class UserController extends Controller
         $search = $request->input('search');
 
         // Lọc người dùng với vai trò 'user'
-        $usersQuery = User::where('role', 'user')->orderBy('created_at', 'desc');
+        $usersQuery = User::where('role', 'user')->orderBy('id', 'desc');
         if ($search) {
             $usersQuery->where(function ($query) use ($search) {
                 $query->where('name', 'like', "%{$search}%")
@@ -36,7 +36,7 @@ class UserController extends Controller
         $users = $usersQuery->paginate(5);
 
         // Lọc nhân viên với vai trò 'staff'
-        $staffQuery = User::where('role', 'staff')->orderBy('created_at', 'desc');
+        $staffQuery = User::where('role', 'staff')->orderBy('id', 'desc');
         if ($search) {
             $staffQuery->where(function ($query) use ($search) {
                 $query->where('name', 'like', "%{$search}%")
@@ -46,7 +46,7 @@ class UserController extends Controller
         $staff = $staffQuery->paginate(5);
 
         // Lọc quản trị viên với vai trò 'admin'
-        $adminQuery = User::where('role', 'admin')->orderBy('created_at', 'desc');
+        $adminQuery = User::where('role', 'admin')->orderBy('id', 'desc');
         if ($search) {
             $adminQuery->where(function ($query) use ($search) {
                 $query->where('name', 'like', "%{$search}%")

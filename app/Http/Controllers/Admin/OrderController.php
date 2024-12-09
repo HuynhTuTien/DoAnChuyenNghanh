@@ -51,7 +51,7 @@ class OrderController extends Controller
     {
         // Validate trạng thái
         $request->validate([
-            'status' => 'required|in:đang xử lý,đang vận chuyển,hoàn thành,đã hủy',
+            'status' => 'required|in:tiếp nhận đơn,đang xử lý,đang vận chuyển,hoàn thành,đã hủy',
         ]);
 
         $order = Order::with(['dishes.ingredients'])->findOrFail($id);

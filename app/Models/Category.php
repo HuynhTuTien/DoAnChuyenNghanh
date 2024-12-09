@@ -9,8 +9,11 @@ class Category extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
-        'name', 'image'
+        'name',
+        'image'
     ];
 
     public function dishes()
@@ -22,5 +25,4 @@ class Category extends Model
     {
         return self::all();
     }
-
 }

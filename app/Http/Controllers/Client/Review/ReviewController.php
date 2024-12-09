@@ -22,7 +22,7 @@ class ReviewController extends Controller
 
         // Kiểm tra trong bảng orders, xem người dùng đã có món này trong đơn hàng chưa
         $orderExists = OrderDish::whereHas('order', function ($query) use ($userId) {
-            $query->where('user_id', $userId)->where('status', 'completed'); // Giả sử đơn hàng đã hoàn thành
+            $query->where('user_id', $userId)->where('status', 'hoàn thành'); // Giả sử đơn hàng đã hoàn thành
         })->where('dish_id', $dishId)->exists();
 
         if (!$orderExists) {

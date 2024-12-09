@@ -77,53 +77,210 @@
                     </div>
                     <!-- order-tab -->
                     <div class="tab-pane fade" id="order" role="tabpanel" aria-labelledby="order-tab" tabindex="0">
-                        <h5 class="margin-bottom-30">Đơn hàng của bạn</h5>
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Món ăn</th>
-                                        <th>Ngày</th>
-                                        <th>Trạng thái</th>
-                                        <th>Tổng cộng</th>
-                                        <th>Hành động</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($orders as $order)
-                                    <tr>
-                                        <td>
-                                            @foreach ($order->dishes as $dish)
-                                            <div>{{ $dish->name }} ({{ $dish->pivot->quantity }})<br>
-                                            </div>
+                        <div class="d-flex justify-content-between mb-4 flex-wrap">
+                            <ul class="revnue-tab nav nav-tabs" id="orderStatusTab" role="tablist">
+                                <!-- Tab cho đơn hàng tiếp nhận -->
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="received-tab" data-bs-toggle="tab" data-bs-target="#received-tab-pane"
+                                            type="button" role="tab" aria-controls="received-tab-pane" aria-selected="true">Tiếp nhận đơn</button>
+                                </li>
+
+                                <!-- Tab cho đơn hàng đang xử lý -->
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending-tab-pane"
+                                            type="button" role="tab" aria-controls="pending-tab-pane" aria-selected="false">Đang xử lý</button>
+                                </li>
+
+                                <!-- Tab cho đơn hàng đang vận chuyển -->
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="shipping-tab" data-bs-toggle="tab" data-bs-target="#shipping-tab-pane"
+                                            type="button" role="tab" aria-controls="shipping-tab-pane" aria-selected="false">Đang vận chuyển</button>
+                                </li>
+
+                                <!-- Tab cho đơn hàng đã hoàn thành -->
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed-tab-pane"
+                                            type="button" role="tab" aria-controls="completed-tab-pane" aria-selected="false">Hoàn thành</button>
+                                </li>
+
+                                <!-- Tab cho đơn hàng đã hủy -->
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="cancelled-tab" data-bs-toggle="tab" data-bs-target="#cancelled-tab-pane"
+                                            type="button" role="tab" aria-controls="cancelled-tab-pane" aria-selected="false">Đã hủy</button>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tab-content" id="orderStatusTabContent">
+                            <!-- Đơn hàng tiếp nhận -->
+                            <div class="tab-pane fade show active" id="received-tab-pane" role="tabpanel" aria-labelledby="received-tab">
+                                <h5 class="margin-bottom-30">Đơn hàng tiếp nhận</h5>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Món ăn</th>
+                                                <th>Ngày đặt</th>
+                                                <th>Tổng cộng</th>
+                                                <th>Trạng thái</th>
+                                                <th>Hành động</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($orders->where('status', 'tiếp nhận đơn') as $order)
+                                            <tr>
+                                                <td>
+                                                    @foreach ($order->dishes as $dish)
+                                                    <div>{{ $dish->name }} ({{ $dish->pivot->quantity }})<br></div>
+                                                    @endforeach
+                                                </td>
+                                                <td>{{ $order->created_at->format('d/m/Y') }}</td>
+                                                <td>{{ number_format($order->payments->sum('total_amount'), 0, ',', '.') }} vnđ</td>
+                                                <td class="order-status">{{ $order->status }}</td>
+                                                <td>
+                                                    <!-- Nút hủy đơn hàng nếu trạng thái là Tiếp nhận -->
+                                                    @if ($order->status == 'tiếp nhận đơn')
+                                                    <form action="{{ route('account.orders.cancel', $order->id) }}" method="POST">
+                                                        @csrf
+                                                        <button type="submit" id="cancel-order-btn" class="btn-custom">Hủy đơn hàng</button>
+                                                    </form>
+                                                    @else
+                                                    <span class="text-muted">Không thể hủy</span>
+                                                    @endif
+                                                </td>
+                                            </tr>
                                             @endforeach
-                                        </td>
-                                        <td>{{ $order->created_at->format('d/m/Y') }}</td>
-                                        <td>{{ $order->status }}</td>
-                                        <td>
-                                            @php
-                                            $totalAmount = $order->payments->sum('total_amount');
-                                            @endphp
-                                            <span>{{ number_format($totalAmount, 0, ',', '.') }} vnđ</span>
-                                        </td>
-                                        <td>
-                                            <!-- Ẩn nút Hủy nếu trạng thái là Đang vận chuyển hoặc Hoàn thành -->
-                                            @if ($order->status != 'đang vận chuyển' && $order->status != 'hoàn thành')
-                                            <form action="{{ route('account.orders.cancel', $order->id) }}" method="POST">
-                                                @csrf
-                                                <button type="submit" id="cancel-order-btn" class="btn-custom">Hủy đơn
-                                                    hàng</button>
-                                            </form>
-                                            @else
-                                            <span class="text-muted">Không thể hủy</span>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Đơn hàng đang xử lý -->
+                            <div class="tab-pane fade" id="pending-tab-pane" role="tabpanel" aria-labelledby="pending-tab">
+                                <h5 class="margin-bottom-30">Đơn hàng đang xử lý</h5>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Món ăn</th>
+                                                <th>Ngày đặt</th>
+                                                <th>Tổng cộng</th>
+                                                <th>Trạng thái</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($orders->where('status', 'đang xử lý') as $order)
+                                            <tr>
+                                                <td>
+                                                    @foreach ($order->dishes as $dish)
+                                                    <div>{{ $dish->name }} ({{ $dish->pivot->quantity }})<br></div>
+                                                    @endforeach
+                                                </td>
+                                                <td>{{ $order->created_at->format('d/m/Y') }}</td>
+                                                <td>{{ number_format($order->payments->sum('total_amount'), 0, ',', '.') }} vnđ</td>
+                                                <td>{{ $order->status }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Đơn hàng đang vận chuyển -->
+                            <div class="tab-pane fade" id="shipping-tab-pane" role="tabpanel" aria-labelledby="shipping-tab">
+                                <h5 class="margin-bottom-30">Đơn hàng đang vận chuyển</h5>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Món ăn</th>
+                                                <th>Ngày đặt</th>
+                                                <th>Tổng cộng</th>
+                                                <th>Trạng thái</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($orders->where('status', 'đang vận chuyển') as $order)
+                                            <tr>
+                                                <td>
+                                                    @foreach ($order->dishes as $dish)
+                                                    <div>{{ $dish->name }} ({{ $dish->pivot->quantity }})<br></div>
+                                                    @endforeach
+                                                </td>
+                                                <td>{{ $order->created_at->format('d/m/Y') }}</td>
+                                                <td>{{ number_format($order->payments->sum('total_amount'), 0, ',', '.') }} vnđ</td>
+                                                <td>{{ $order->status }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Đơn hàng đã hoàn thành -->
+                            <div class="tab-pane fade" id="completed-tab-pane" role="tabpanel" aria-labelledby="completed-tab">
+                                <h5 class="margin-bottom-30">Đơn hàng đã hoàn thành</h5>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Món ăn</th>
+                                                <th>Ngày đặt</th>
+                                                <th>Tổng cộng</th>
+                                                <th>Trạng thái</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($orders->where('status', 'hoàn thành') as $order)
+                                            <tr>
+                                                <td>
+                                                    @foreach ($order->dishes as $dish)
+                                                    <div>{{ $dish->name }} ({{ $dish->pivot->quantity }})<br></div>
+                                                    @endforeach
+                                                </td>
+                                                <td>{{ $order->created_at->format('d/m/Y') }}</td>
+                                                <td>{{ number_format($order->payments->sum('total_amount'), 0, ',', '.') }} vnđ</td>
+                                                <td>{{ $order->status }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Đơn hàng đã hủy -->
+                            <div class="tab-pane fade" id="cancelled-tab-pane" role="tabpanel" aria-labelledby="cancelled-tab">
+                                <h5 class="margin-bottom-30">Đơn hàng đã hủy</h5>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Món ăn</th>
+                                                <th>Ngày đặt</th>
+                                                <th>Tổng cộng</th>
+                                                <th>Trạng thái</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($orders->where('status', 'đã hủy') as $order)
+                                            <tr>
+                                                <td>
+                                                    @foreach ($order->dishes as $dish)
+                                                    <div>{{ $dish->name }} ({{ $dish->pivot->quantity }})<br></div>
+                                                    @endforeach
+                                                </td>
+                                                <td>{{ $order->created_at->format('d/m/Y') }}</td>
+                                                <td>{{ number_format($order->payments->sum('total_amount'), 0, ',', '.') }} vnđ</td>
+                                                <td>{{ $order->status }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
                     <!-- track-order-tab -->
                     <div class="tab-pane fade" id="track-order" role="tabpanel" aria-labelledby="track-order-tab"
                         tabindex="0">
@@ -286,42 +443,62 @@
     }
 </style>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('#cancel-order-btn').forEach(function(button) {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                const form = button.closest('form');
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('#cancel-order-btn').forEach(function(button) {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const form = button.closest('form');
+            const row = button.closest('tr'); // Lấy dòng chứa đơn hàng
+            const statusCell = row.querySelector('.order-status'); // Lấy ô trạng thái của đơn hàng
+            const orderTable = row.closest('table'); // Lấy bảng chứa đơn hàng
 
-                if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?')) {
-                    fetch(form.action, {
-                            method: 'POST',
-                            headers: {
-                                'X-CSRF-TOKEN': document.querySelector(
-                                    'meta[name="csrf-token"]').getAttribute('content'),
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                _token: form.querySelector('input[name="_token"]')
-                                    .value,
-                            })
-                        })
+            if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?')) {
+                fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        _token: form.querySelector('input[name="_token"]').value,
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // // Cập nhật giao diện sau khi hủy thành công
+                        // const cancelCell = row.querySelector('td:last-child'); // Lấy ô chứa nút hủy
+                        // cancelCell.innerHTML = '<span class="text-muted">Không thể hủy</span>'; // Thay đổi nội dung nút hủy
 
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                button.closest('tr').style.display = 'none';
-                            } else {
-                                alert('Đã xảy ra lỗi: ' + data.message);
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('Đã xảy ra lỗi. Vui lòng thử lại.');
-                        });
-                }
-            });
+                        // // Cập nhật trạng thái đơn hàng trong bảng
+                        // statusCell.innerHTML = 'Đã hủy'; // Thay đổi trạng thái thành "Đã hủy"
+
+                        // // Di chuyển đơn hàng vào bảng "Đã hủy"
+                        // const cancelledTab = document.querySelector('#cancelled-tab-pane');
+                        // cancelledTab.querySelector('table tbody').appendChild(row); // Thêm dòng vào tab đã hủy
+
+                        // Ẩn đơn hàng khỏi bảng hiện tại
+                        orderTable.querySelector('tbody').removeChild(row);
+
+                        // // Chuyển sang tab "Đã hủy" nếu chưa ở đó
+                        // const cancelledTabLink = document.querySelector('#cancelled-tab-pane');
+                        // if (!cancelledTabLink.classList.contains('active')) {
+                        //     cancelledTabLink.classList.add('active');
+                        //     document.querySelector('#received-tab').classList.remove('active');
+                        // }
+                    } else {
+                        alert('Đã xảy ra lỗi: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Đã xảy ra lỗi. Vui lòng thử lại.');
+                });
+            }
         });
     });
+});
+
 
     function copyToClipboard(elementId) {
         const copyText = document.getElementById(elementId).innerText;

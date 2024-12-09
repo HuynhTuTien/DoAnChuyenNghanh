@@ -67,6 +67,42 @@
         </div>
     </div>
 
+        <!-- pizza banner -->
+        <section class="banner-gallery pizza-banner padding-top-20 padding-bottom-10">
+            <div class="pizza-shapes">
+                <span class="ps1"><img src="{{ asset('assets/client/images/shapes/35.png') }}" alt=""></span>
+                <span class="ps2"><img src="{{ asset('assets/client/images/shapes/26.png') }}" alt=""></span>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8 col-md-12 wow fadeInRight align-items-center">
+                                <div class="gallery-img-1 gallery-img-01">
+                                    @foreach ($promotions as $promotion)
+                                    <h5><strong></strong> {{ $promotion->describe }}</h5>
+
+                                        <p><strong>Giảm giá:</strong> {{ $promotion->discount }}%</p>
+                                        <p><strong>Từ ngày: </strong>{{ \Carbon\Carbon::parse($promotion->start_time)->format('d-m-Y') }}
+                                        <strong>Đến ngày: </strong>{{ \Carbon\Carbon::parse($promotion->end_time)->format('d-m-Y') }}</p>
+                                    @endforeach
+                                    <a href="#" class="btn">Đặt ngay</a>
+                                    <img src="{{ asset('assets/client/images/menu-item/chicken-banner.png') }}" alt="">
+                                    <span class="yellow"><img src="{{ asset('assets/client/images/shapes/37.png') }}"
+                                            alt=""></span>
+                                    <span class="gs1"><img src="{{ asset('assets/client/images/shapes/bbs.png') }}"
+                                            alt=""></span>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
     <!-- chicken tab-area -->
     <section class="menu-area pizza-area burger-area chicken-area padding-top-40">
         <div class="menu-i-shapes">
@@ -162,43 +198,4 @@
             </div>
         </div>
     </section>
-
-
-
-    <!-- pizza banner -->
-    <section class="banner-gallery pizza-banner padding-top-20 padding-bottom-10">
-        <div class="pizza-shapes">
-            <span class="ps1"><img src="{{ asset('assets/client/images/shapes/35.png') }}" alt=""></span>
-            <span class="ps2"><img src="{{ asset('assets/client/images/shapes/26.png') }}" alt=""></span>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 col-md-12">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-8 col-md-12 wow fadeInRight align-items-center">
-                            <div class="gallery-img-1 gallery-img-01">
-                                @foreach ($promotions as $promotion)
-                                <h5><strong></strong> {{ $promotion->describe }}</h5>
-
-                                    <p><strong>Giảm giá:</strong> {{ $promotion->discount }}%</p>
-                                    <p><strong>Từ ngày: </strong>{{ \Carbon\Carbon::parse($promotion->start_time)->format('d-m-Y') }}
-                                    <strong>Đến ngày: </strong>{{ \Carbon\Carbon::parse($promotion->end_time)->format('d-m-Y') }}</p>
-                                @endforeach
-                                <a href="#" class="btn">Đặt ngay</a>
-                                <img src="{{ asset('assets/client/images/menu-item/chicken-banner.png') }}" alt="">
-                                <span class="yellow"><img src="{{ asset('assets/client/images/shapes/37.png') }}"
-                                        alt=""></span>
-                                <span class="gs1"><img src="{{ asset('assets/client/images/shapes/bbs.png') }}"
-                                        alt=""></span>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
 @endsection

@@ -117,6 +117,7 @@
                                             @csrf
                                             <label for="status">Trạng thái đơn hàng:</label>
                                             <select name="status" id="status" class="form-control">
+                                                <option value="tiếp nhận đơn" {{ $order->status == 'tiếp nhận đơn' ? 'selected' : '' }}>Tiếp nhận đơn</option>
                                                 <option value="đang xử lý" {{ $order->status == 'đang xử lý' ? 'selected' : '' }}>Đang xử lý</option>
                                                 <option value="đang vận chuyển" {{ $order->status == 'đang vận chuyển' ? 'selected' : '' }}>Đang vận chuyển</option>
                                                 <option value="hoàn thành" {{ $order->status == 'hoàn thành' ? 'selected' : '' }}>Hoàn thành</option>

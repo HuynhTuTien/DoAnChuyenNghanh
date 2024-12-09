@@ -14,8 +14,7 @@
             <nav aria-label="breadcrumb">
                 <h2 class="page-title">Thanh toán</h2>
                 <ol class="breadcrumb text-center">
-                    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Thanh toán</li>
+                    <li class="breadcrumb-item"><a href="/">Trang chủ</a> / Thanh toán</li>
                 </ol>
             </nav>
         </div>
@@ -27,14 +26,14 @@
         <form action="{{ route('payment.process') }}" method="POST">
             @csrf
             @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
             <div class="row">
                 <!-- Cart Details -->
@@ -74,7 +73,7 @@
                 <div class="col-md-5">
                     <div class="card mb-3">
                         <div class="card-header bg-light">
-                            <h5 class="card-title mb-0">Thông tin khách hàng</h5>
+                            <h5 class="card-title mb-0">Thông tin giao hàng</h5>
                         </div>
                         <div class="card-body">
                             <!-- Customer Name -->
@@ -106,10 +105,10 @@
 
                             <!-- Payment Option Selection -->
                             <div class="mb-3">
-                                <label for="paymentOption" class="form-label">Hình thức thanh toán</label>
+                                <label for="paymentOption" class="form-label">Hình thức nhận hàng</label>
                                 <select name="payment_option" id="paymentOption" class="form-select" onchange="toggleAddressField(this.value)">
                                     <option value="store" selected>Dùng tại cửa hàng</option>
-                                    <option value="delivery">Giao hàng</option>
+                                    <option value="delivery">Giao hàng tận nơi</option>
                                 </select>
                                 @error('payment_option')
                                     <div class="text-danger">{{ $message }}</div>
@@ -183,9 +182,8 @@
                             <div class="mb-3">
                                 <label for="paymentMethod" class="form-label">Phương thức thanh toán</label>
                                 <select name="paymentMethod" class="form-select" required>
-                                    <option value="restaurant">Thanh toán tiền mặt</option>
-                                    <option value="vnPay">Thanh toán VNPay</option>
-                                    <option value="momo">Thanh toán MoMo</option>
+                                    <option value="tiền mặt">Thanh toán tiền mặt</option>
+                                    <option value="vnpay">Thanh toán VNPay</option>
                                 </select>
                                 @error('paymentMethod')
                                     <div class="text-danger">{{ $message }}</div>

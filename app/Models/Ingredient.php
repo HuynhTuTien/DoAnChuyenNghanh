@@ -9,6 +9,8 @@ class Ingredient extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = ['name', 'unit', 'quantity'];
 
     // Hàm để tính toán lại số lượng nguyên liệu khi nhập

@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class OrderDish extends Model
 {
     use HasFactory;
+
+    // public $timestamps = false;
+
     protected $table = 'order_dish';
 
     protected $fillable = [

@@ -93,38 +93,6 @@ class IngredientController extends Controller
         return view('admin.ingredient.entry', compact('ingredients', 'suppliers'));
     }
 
-
-    // // Lưu thông tin nhập liệu mới và cập nhật kho
-    // public function storeEntry(Request $request)
-    // {
-    //     $request->validate([
-    //         'ingredient_id' => 'required|exists:ingredients,id',
-    //         'supplier_id' => 'required|exists:suppliers,id',
-    //         'quantity' => 'required|numeric|min:0.01|regex:/^\d+(\.\d{1,2})?$/',
-    //         'unit' => 'nullable|string|max:20',
-    //         'price' => 'required|numeric|min:0',
-    //     ]);
-
-    //     // Tạo mới bản ghi nhập liệu
-    //     $entry = IngredientEntry::create([
-    //         'ingredient_id' => $request->ingredient_id,
-    //         'supplier_id' => $request->supplier_id,
-    //         'quantity' => $request->quantity,
-    //         'unit' => $request->unit,
-    //         'price' => $request->price,
-    //     ]);
-
-    //     // Cập nhật số lượng trong kho
-    //     $ingredient = Ingredient::find($request->ingredient_id);
-    //     $ingredient->updateQuantity($request->quantity);
-
-    //     // Gọi phương thức cập nhật số lượng món ăn
-    //     app(DishController::class)->updateDishQuantities();
-
-    //     return redirect()->route('ingredient.list')->with('success', 'Nguyên liệu đã được nhập thành công!');
-    // }
-
-
     // Lưu thông tin nhập liệu mới và cập nhật kho
     public function storeEntry(Request $request)
     {

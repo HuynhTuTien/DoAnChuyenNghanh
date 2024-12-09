@@ -85,9 +85,9 @@
                                 <label for="stock">số lượng</label>
                                 <input name="quantity" min="1" type="number" value="1" placeholder="1">
                             </span>
-                            <span>
+                            {{-- <span>
                                 <label for="stock">số lượng có sẵn: {{ $dishDetail->quantity }}</label>
-                            </span>
+                            </span> --}}
                         </div>
                         <button type="submit" class="btn">Thêm vào giỏ hàng</button>
                     </form>
@@ -156,7 +156,7 @@
                                     <option value="5">5 sao</option>
                                 </select>
                             </div>
-                            <button class="btn btn-danger mt-3">Gửi đánh giá</button>
+                            <button type="submit" class="btn btn-danger mt-3">Gửi đánh giá</button>
                         </form>
                         @else
                             <!-- Nếu người dùng chưa đăng nhập, chỉ hiển thị thông báo -->
@@ -251,13 +251,7 @@
                                         </ul>
                                     </div>
                                 @endif
-
-
-
                                 </div>
-
-
-
                             </div>
                             @endforeach
                         </div>

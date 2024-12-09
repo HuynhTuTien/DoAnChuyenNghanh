@@ -25,7 +25,6 @@ class AccountController extends Controller
         // Fetch orders for the authenticated user
         $orders = Order::with(['dishes', 'payments'])
             ->where('user_id', $user->id)
-            ->where('status', '!=', 'đã hủy')
             ->get();
 
 
@@ -38,6 +37,16 @@ class AccountController extends Controller
 
         return view('clients.account.index', compact('user', 'promotions', 'orders', 'totalAmount'));
     }
+
+    public function showOrders()
+    {
+        $user = Auth::user();
+        // Lấy tất cả các đơn hàng của người dùng, bao gồm cả đơn đã hủy
+        $orders = Order::where('user_id', $user->id)->get();
+
+        return view('clients.account.orders', compact('orders'));
+    }
+
 
     public function update(UpdateAccountRequest $request, $id)
     {
@@ -76,15 +85,21 @@ class AccountController extends Controller
     {
         $order = Order::findOrFail($id);
 
-        // Kiểm tra xem đơn hàng có thuộc về người dùng hiện tại không
+        // Kiểm tra quyền sở hữu đơn hàng
         if ($order->user_id !== Auth::id()) {
             return response()->json(['success' => false, 'message' => 'Bạn không có quyền hủy đơn hàng này.']);
+        }
+
+        // Kiểm tra trạng thái đơn hàng có thể hủy hay không
+        if ($order->status != 'tiếp nhận đơn') {
+            return response()->json(['success' => false, 'message' => 'Không thể hủy đơn hàng này vì trạng thái không cho phép.']);
         }
 
         // Cập nhật trạng thái đơn hàng thành "đã hủy"
         $order->status = 'đã hủy';
         $order->save();
 
-        return response()->json(['success' => true, 'message' => 'Đơn hàng đã được hủy.']);
+        // Trả về dữ liệu để cập nhật giao diện
+        return response()->json(['success' => true, 'orderId' => $order->id, 'status' => 'Đã hủy']);
     }
 }

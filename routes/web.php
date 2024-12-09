@@ -82,6 +82,9 @@ Route::middleware(['auth'])->group(function () {
         Route::put('account/update/{id}', [AccountController::class, 'update'])->name('update');
         Route::get('account/show/{id}', [AccountController::class, 'show'])->name('show');
         Route::post('account/orders/cancel/{id}', [AccountController::class, 'cancelOrder'])->name('orders.cancel');
+
+        // Add the route to show user's orders
+        Route::get('account/orders', [AccountController::class, 'showOrders'])->name('orders');
     });
 });
 
@@ -204,6 +207,15 @@ Route::get('thanh-toan', [CheckoutController::class, 'checkout'])->name('checkou
 
 Route::post('thanh-toan/tien-hanh', [CheckoutController::class, 'processPayment'])->name('payment.process');
 Route::post('/checkout', [CheckoutController::class, 'processPayment'])->name('payment.process');
+
+
+Route::get('/order-success', [CheckoutController::class, 'orderSuccess'])->name('order.success');
+
+//----------------------------------------------------------------------------------------------------
+Route::get('payment/vnpay', [PaymentController::class, 'vnpay'])->name('payment.vnpay');
+Route::post('payment/vnpay/return', [PaymentController::class, 'vnpayReturn'])->name('payment.vnpay.return');
+Route::post('payment/checkout', [CheckoutController::class, 'processPayment'])->name('payment.checkout');
+Route::get('payment/return', [CheckoutController::class, 'paymentReturn'])->name('payment.return');
 
 
 // Route hiển thị chi tiết đơn hàng

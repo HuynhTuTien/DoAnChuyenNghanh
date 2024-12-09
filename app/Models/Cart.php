@@ -9,6 +9,8 @@ class Cart extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
         'id',
         'user_id',
@@ -58,7 +60,7 @@ class Cart extends Model
             return ['error' => 'Sản phẩm không tồn tại.'];
         }
         if ($product->quantity <= 0) {
-            return ['error' => 'Đã hết món vui lòng quay lại sau.'];
+            return ['error' => 'Số lượng sản phẩm không đủ. Vui lòng đợi vài phút.'];
         }
 
         if ($product->quantity < $quantity) {

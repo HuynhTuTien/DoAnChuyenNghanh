@@ -9,6 +9,9 @@ class Promotion extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
+
     protected $fillable = [
         'code',
         'discount',

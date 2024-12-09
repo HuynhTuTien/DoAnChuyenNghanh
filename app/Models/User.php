@@ -20,6 +20,8 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable;
     use TwoFactorAuthenticatable;
 
+    public $timestamps = false;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -36,10 +38,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'active',
         'google_id',
         'facebook_id',
-        'ngay_sinh',    // Thêm ngày sinh
-        'can_cuoc',     // Thêm căn cước
-        'que_quan',     // Thêm quê quán
-        'chuc_vu',      // Thêm chức vụ
+        'ngay_sinh',
+        'can_cuoc',
+        'que_quan',
+        'chuc_vu',
     ];
 
     /**
