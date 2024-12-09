@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="h-100">
 
-
-<!-- Mirrored from salero.dexignzone.com/xhtml/page-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 18 Jul 2024 05:56:05 GMT -->
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

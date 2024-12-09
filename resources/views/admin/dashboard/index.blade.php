@@ -5,7 +5,7 @@
 @section('content')
     <div class="content-body">
         <div class="container">
-            <h2>chào bạn quay lại làm việc. Chúc bạn một ngày làm việc vui vẻ!!!</h2>
+            <h2>Chào bạn quay lại làm việc. Chúc bạn một ngày làm việc vui vẻ!!!</h2>
         </div>
     </div>
 

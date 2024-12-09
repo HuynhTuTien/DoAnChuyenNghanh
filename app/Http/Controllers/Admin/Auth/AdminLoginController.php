@@ -23,7 +23,7 @@ class AdminLoginController extends Controller
         if (Auth::attempt($request->only('email', 'password'))) {
             // Kiểm tra role của người dùng
             $user = Auth::user();
-            if ($user->role === 'admin') {
+            if ($user->role === 'admin' || $user->role === 'staff') {
                 return redirect()->route('admin.dashboard');
             } else {
                 Auth::logout(); // Đăng xuất nếu không phải admin

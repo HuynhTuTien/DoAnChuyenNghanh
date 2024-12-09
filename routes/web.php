@@ -88,7 +88,7 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
-Route::get('dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'role:admin'])->name('admin.dashboard');
+Route::get('dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'role:admin,staff'])->name('admin.dashboard');
 Route::middleware(['auth'])->group(function () {
     Route::get('admin', [StatisticalController::class, 'index'])->name('statistical.index')->middleware(['auth', 'role:admin']);
     Route::get('statistical/revenue-chart', [StatisticalController::class, 'revenueChart'])->name('statistical.revenue.chart');
@@ -228,8 +228,7 @@ Route::post('/admin/order/{id}/update-status', [OrderController::class, 'updateS
 Route::prefix('admin')->group(function () {
     Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
     Route::post('/login', [AdminLoginController::class, 'login'])->name('admin.login.submit');
-    Route::get('admin', [AdminLoginController::class, 'admin'])->name('admin.index')->middleware('auth');
-
+    Route::get('admin', [AdminLoginController::class, 'admin'])->name('admin.index')->middleware('admin.or.staff');
 
     Route::post('/logout', [AdminLoginController::class, 'logoutAdmin'])->name('admin.logout');
 });

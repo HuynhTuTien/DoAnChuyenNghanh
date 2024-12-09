@@ -87,14 +87,6 @@
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf
 
-                                {{-- <div class="row">
-                                    <div class="google-button">
-                                        <a href="{{ route('auth.google') }}" class="btn google-btn"><span><i
-                                                    class="fab fa-google"></i></span> Google</a>
-                                    </div>
-
-                                </div> --}}
-
                                 <div class="mt-4">
                                     <x-label for="email" value="{{ __('Email') }}" />
                                     <x-input id="email" type="email" name="email" :value="old('email')"
