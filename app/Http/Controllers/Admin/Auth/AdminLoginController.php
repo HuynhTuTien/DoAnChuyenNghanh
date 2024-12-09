@@ -21,12 +21,14 @@ class AdminLoginController extends Controller
         ]);
 
         if (Auth::attempt($request->only('email', 'password'))) {
-            // Kiểm tra role của người dùng
+            
             $user = Auth::user();
-            if ($user->role === 'admin') {
-                return redirect()->route('admin.dashboard');
+        
+            // Kiểm tra role của người dùng là admin hoặc staff
+            if ($user->role === 'admin' || $user->role === 'staff') {
+                return redirect()->route('admin.dashboard'); // Điều hướng đến dashboard
             } else {
-                Auth::logout(); // Đăng xuất nếu không phải admin
+                Auth::logout(); // Đăng xuất nếu không có quyền truy cập
                 return redirect()->route('admin.login')->withErrors(['email' => 'Bạn không có quyền truy cập.']);
             }
         }
