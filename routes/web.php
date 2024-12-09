@@ -157,7 +157,7 @@ Route::name('category.')->group(function () {
 //Promotion
 Route::name('promotion.')->group(function () {
     Route::get('promotion/list', [PromotionController::class, 'list'])->name('list')->middleware(['auth', 'role:admin,staff']);
-    Route::get('promotion/add', [PromotionController::class, 'add'])->name('add')->middleware(['auth', 'role:admin']);
+    Route::get('promotion/add', [PromotionController::class, 'add'])->name('add')->middleware(['auth', 'role:admin,staff']);
     Route::post('promotion/store', [PromotionController::class, 'store'])->name('store')->middleware(['auth', 'role:admin,staff']);
     Route::get('/promotion/edit/{id}', [PromotionController::class, 'update'])->name('update')->middleware(['auth', 'role:admin,staff']);
     Route::post('/promotion/update/{id}', [PromotionController::class, 'processUpdate'])->name('processUpdate')->middleware(['auth', 'role:admin,staff']);
