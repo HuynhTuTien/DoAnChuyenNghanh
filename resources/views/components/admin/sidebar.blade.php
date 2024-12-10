@@ -10,7 +10,7 @@
                                 fill="#90959F" />
                         </svg>
                     </div>
-                    <span class="nav-text">Bảng điều khiển</span>
+                    <span class="nav-text">Thống kê</span>
                 </a>
             <li class="menu-title">CÁC TÍNH NĂNG CỦA CHÚNG TÔI</li>
             <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
