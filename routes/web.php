@@ -156,17 +156,17 @@ Route::name('category.')->group(function () {
 
 //Promotion
 Route::name('promotion.')->group(function () {
-    Route::get('promotion/list', [PromotionController::class, 'list'])->name('list')->middleware(['auth', 'role:admin']);
-    Route::get('promotion/add', [PromotionController::class, 'add'])->name('add')->middleware(['auth', 'role:admin']);
-    Route::post('promotion/store', [PromotionController::class, 'store'])->name('store')->middleware(['auth', 'role:admin']);
-    Route::get('/promotion/edit/{id}', [PromotionController::class, 'update'])->name('update')->middleware(['auth', 'role:admin']);
-    Route::post('/promotion/update/{id}', [PromotionController::class, 'processUpdate'])->name('processUpdate')->middleware(['auth', 'role:admin']);
-    Route::delete('promotion/{id}', [PromotionController::class, 'delete'])->name('delete')->middleware(['auth', 'role:admin']);
+    Route::get('promotion/list', [PromotionController::class, 'list'])->name('list')->middleware(['auth', 'role:admin,staff']);
+    Route::get('promotion/add', [PromotionController::class, 'add'])->name('add')->middleware(['auth', 'role:admin,staff']);
+    Route::post('promotion/store', [PromotionController::class, 'store'])->name('store')->middleware(['auth', 'role:admin,staff']);
+    Route::get('/promotion/edit/{id}', [PromotionController::class, 'update'])->name('update')->middleware(['auth', 'role:admin,staff']);
+    Route::post('/promotion/update/{id}', [PromotionController::class, 'processUpdate'])->name('processUpdate')->middleware(['auth', 'role:admin,staff']);
+    Route::delete('promotion/{id}', [PromotionController::class, 'delete'])->name('delete')->middleware(['auth', 'role:admin,staff']);
 })->middleware(['auth', 'role:admin']);
 
 
 //comment
-Route::get('comment', [CommentController::class, 'index'])->name('comment.list')->middleware(['auth', 'role:admin']);
+Route::get('comment', [CommentController::class, 'index'])->name('comment.list')->middleware(['auth', 'role:admin,staff']);
 
 
 Route::name('supplier.')->prefix('supplier')->middleware(['auth', 'role:admin'])->group(function () {
@@ -180,7 +180,7 @@ Route::name('supplier.')->prefix('supplier')->middleware(['auth', 'role:admin'])
 });
 
 
-Route::name('ingredient.')->prefix('ingredient')->middleware(['auth', 'role:admin'])->group(function () {
+Route::name('ingredient.')->prefix('ingredient')->middleware(['auth', 'role:admin,staff'])->group(function () {
     Route::get('/', [IngredientController::class, 'index'])->name('list'); // Danh sách nguyên liệu
     Route::get('/create', [IngredientController::class, 'create'])->name('create'); // Hiển thị form tạo nguyên liệu mới
     Route::post('/store', [IngredientController::class, 'store'])->name('store'); // Lưu nguyên liệu mới

@@ -42,9 +42,9 @@ class LoginController extends Controller
             }
 
             // Kiểm tra vai trò của người dùng sau khi login
-            if (Auth::user()->role === 'admin') {
+            if (Auth::user()->role === 'admin' || Auth::user()->role === 'staff' ) {
                 // Nếu là admin, chuyển hướng đến trang admin
-                return redirect()->route('admin');
+                return redirect()->route('dashboard');
             } else {
                 // Nếu là user, chuyển hướng về trang chủ
                 return redirect()->intended('/');

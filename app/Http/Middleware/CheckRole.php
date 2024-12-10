@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,11 +19,19 @@ class CheckRole
         if (Auth::check()) {
             $user = Auth::user();
 
+            // Kiểm tra vai trò người dùng
             if (in_array($user->role, $roles)) {
                 return $next($request);
             }
         }
 
-        return redirect()->route('login')->withErrors('Bạn không có quyền cần thiết.');
+        // Xử lý khi không có quyền truy cập
+        if ($request->ajax()) {
+            // Nếu là yêu cầu AJAX, trả về lỗi JSON
+            return response()->json(['error' => 'Bạn không có quyền truy cập!'], 403);
+        }
+
+        // Giữ nguyên trang hiện tại và hiển thị thông báo lỗi
+        return back()->with('error', 'Bạn không có quyền truy cập vào chức năng này.');
     }
 }
