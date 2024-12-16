@@ -125,7 +125,6 @@
         <p>Chúng tôi sẽ thông báo cho bạn khi đơn hàng được giao.</p>
 
         <p>Trân trọng,</p>
-        <p>Nhà hàng KHADYO</p>
     </div>
 </body>
 </html>
