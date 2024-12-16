@@ -209,12 +209,17 @@
                                                                     <a class="dropdown-item"
                                                                         href="{{ route('user.edit', $item->id) }}">Chỉnh
                                                                         sửa</a>
-                                                                    <form action="{{ route('user.destroy', $item->id) }}"
+                                                                    {{-- <form action="{{ route('user.destroy', $item->id) }}"
                                                                         method="POST" style="display: inline;">
                                                                         @csrf
                                                                         @method('DELETE')
                                                                         <button type="submit" class="dropdown-item"
                                                                             onclick="return confirm('Bạn có chắc chắn muốn xóa người dùng này?')">Xóa</button>
+                                                                    </form> --}}
+                                                                    <form action="{{ route('user.destroyStaff', $item->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa nhân viên này?')">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button type="submit" class="btn btn-danger">Xóa</button>
                                                                     </form>
                                                                 </div>
                                                             </div>

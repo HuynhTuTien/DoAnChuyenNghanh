@@ -31,7 +31,15 @@
                                             <td class="text-center">
                                                 <form action="{{ route('dish.updateIngredientQuantity', [$dish->slug, $ingredient->id]) }}" method="POST" style="display: inline;">
                                                     @csrf
-                                                    <input type="number" name="quantity" value="{{ $ingredient->pivot->quantity }}" required class="form-control form-control-sm w-auto d-inline-block">
+                                                    <input type="number"
+                                                    name="quantity"
+                                                    value="{{ $ingredient->pivot->quantity }}"
+                                                    step="0.01"
+                                                    min="0.01"
+                                                    pattern="^\d+(\.\d{1,2})?$"
+                                                    title="Nhập số thập phân với tối đa 2 chữ số sau dấu chấm"
+                                                    required
+                                                    class="form-control form-control-sm w-auto d-inline-block">
                                                     <button type="submit" class="btn btn-primary btn-sm">Cập nhật</button>
                                                 </form>
 

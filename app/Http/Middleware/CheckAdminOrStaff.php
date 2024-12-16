@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Auth;
 
 class CheckAdminOrStaff
@@ -18,12 +17,13 @@ class CheckAdminOrStaff
      */
     public function handle(Request $request, Closure $next)
     {
-        // Kiểm tra nếu người dùng là admin hoặc staff
-        if (Auth::check() && (Auth::user()->role === 'admin' || Auth::user()->role === 'staff')) {
-            return $next($request);
+        $user = Auth::guard('admin')->user();
+
+        // Kiểm tra nếu người dùng không phải admin/staff
+        if (!$user || !in_array($user->role, ['admin', 'staff'])) {
+            return redirect()->route('admin.login')->withErrors(['email' => 'Bạn không có quyền truy cập.']);
         }
 
-        // Nếu không phải admin hoặc staff, trả về trang lỗi hoặc chuyển hướng đến trang login
-        return redirect()->route('login');  // Hoặc bạn có thể chuyển hướng đến một trang lỗi nào đó
+        return $next($request);
     }
 }

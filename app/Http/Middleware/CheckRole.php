@@ -14,24 +14,16 @@ class CheckRole
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, ...$roles): Response
+    public function handle(Request $request, Closure $next, ...$roles)
     {
-        if (Auth::check()) {
-            $user = Auth::user();
-
-            // Kiểm tra vai trò người dùng
+        if (Auth::guard('admin')->check()) { // Sử dụng guard 'admin' thay vì 'web'
+            $user = Auth::guard('admin')->user();
             if (in_array($user->role, $roles)) {
                 return $next($request);
             }
         }
 
-        // Xử lý khi không có quyền truy cập
-        if ($request->ajax()) {
-            // Nếu là yêu cầu AJAX, trả về lỗi JSON
-            return response()->json(['error' => 'Bạn không có quyền truy cập!'], 403);
-        }
-
-        // Giữ nguyên trang hiện tại và hiển thị thông báo lỗi
-        return back()->with('error', 'Bạn không có quyền truy cập vào chức năng này.');
+        // Nếu không phải admin hoặc không có quyền
+        return redirect()->route('admin.dashboard'); // Chuyển về trang Dashboard của admin nếu không đủ quyền
     }
 }

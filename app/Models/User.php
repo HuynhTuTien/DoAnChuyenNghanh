@@ -30,19 +30,14 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $fillable = [
         'name',
         'email',
-        'password',
-        'phone',
-        'address',
-        'role',
-        'slug',
-        'active',
-        'google_id',
-        'facebook_id',
-        'ngay_sinh',
-        'can_cuoc',
-        'que_quan',
-        'chuc_vu',
+        'phone',           // Địa chỉ điện thoại
+        'address',         // Địa chỉ
+        'password',        // Mật khẩu
+        'role',            // Vai trò người dùng (ví dụ: 'user')
+        'active',          // Trạng thái hoạt động ('active' hoặc 'inactive')
+        'remember_token',  // Token để nhớ người dùng (Laravel sử dụng cho chức năng remember me)
     ];
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -127,11 +122,6 @@ class User extends Authenticatable implements MustVerifyEmail
     public function payments(): HasMany
     {
         return $this->hasMany(Payment::class);
-    }
-
-    public function notifications(): HasMany
-    {
-        return $this->hasMany(Notification::class);
     }
 
     public function carts(): HasMany

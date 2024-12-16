@@ -20,17 +20,17 @@ class AdminLoginController extends Controller
             'password' => 'required|min:6',
         ]);
 
-        if (Auth::attempt($request->only('email', 'password'))) {
-            // Kiểm tra role của người dùng
-            $user = Auth::user();
-            if ($user->role === 'admin' || $user->role === 'staff') {
-                return redirect()->route('admin.dashboard');
-            } else {
-                Auth::logout(); // Đăng xuất nếu không phải admin
-                return redirect()->route('admin.login')->withErrors(['email' => 'Bạn không có quyền truy cập.']);
+        // Kiểm tra nếu là admin hoặc staff (đăng nhập từ bảng admin_staff)
+        if (Auth::guard('admin')->attempt($request->only('email', 'password'))) {
+            $user = Auth::guard('admin')->user();
+            // dd($user); // Kiểm tra xem user có được trả về hay không
+            // Kiểm tra xem người dùng có phải là admin hoặc staff không
+            if (in_array($user->role, ['admin', 'staff'])) {
+                return redirect()->route('admin.dashboard'); // Trang dashboard của admin/staff
             }
         }
 
+        // Nếu không phải admin hoặc không đăng nhập thành công
         return back()->withErrors(['email' => 'Email hoặc mật khẩu không đúng.']);
     }
 
@@ -45,6 +45,6 @@ class AdminLoginController extends Controller
         $request->session()->invalidate(); // Xóa toàn bộ session
         $request->session()->regenerateToken(); // Tạo token CSRF mới để bảo mật
 
-        return view('admin.auth.login'); // Trang đăng nhập cho admin
+        return redirect()->route('admin.login'); // Trang đăng nhập cho admin
     }
 }
