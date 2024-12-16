@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\App;
 use Picqer\Barcode\BarcodeGeneratorHTML;
+use App\Models\Payment;
 
 class OrderController extends Controller
 {
@@ -79,6 +80,10 @@ class OrderController extends Controller
                     app(DishController::class)->updateDishQuantities();
                 }
             }
+            // Cập nhật trạng thái thanh toán trong bảng `payments`
+            Payment::where('order_id', $order->id)
+                ->where('status', 'chưa thanh toán') // Kiểm tra trạng thái hiện tại
+                ->update(['status' => 'đã thanh toán']);
         }
 
         // Cập nhật trạng thái đơn hàng

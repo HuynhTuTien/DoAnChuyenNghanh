@@ -16,7 +16,8 @@ class Payment extends Model
         'user_id',
         'payment_date',
         'payment_method',
-        'total_amount'
+        'total_amount',
+        'status'
     ];
     protected $dates = ['payment_date'];
 

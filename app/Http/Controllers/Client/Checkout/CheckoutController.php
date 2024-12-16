@@ -73,7 +73,7 @@ class CheckoutController extends Controller
         return view('clients.checkout.checkout', compact('cartItems', 'totalPrice', 'discount', 'totalPriceAfterDiscount', 'districts'));
     }
 
-    
+
     public function processPayment(Request $request)
     {
         // Validate thông tin người dùng
@@ -311,7 +311,7 @@ class CheckoutController extends Controller
             $orderId = $inputData['vnp_TxnRef'];
             $order = Order::find($orderId);
             if ($order) {
-                $order->status = 'paid';
+                $order->status = 'tiếp nhận đơn';
                 $order->save();  // Không cần cập nhật payment_date vào bảng orders
 
                 // Lưu thông tin thanh toán vào bảng Payment
@@ -320,7 +320,9 @@ class CheckoutController extends Controller
                     'user_id' => $order->user_id,  // Lấy user_id từ order
                     'payment_date' => now(),        // Lưu ngày thanh toán vào bảng Payment
                     'payment_method' => 'vnpay',   // Giả sử bạn lưu phương thức thanh toán là vnpay
+
                     'total_amount' => $inputData['vnp_Amount'] / 100, // Chuyển về đơn vị tiền tệ (VNĐ)
+                    'status' => 'đã thanh toán',
                 ]);
 
                 Cart::where('user_id', $order->user_id)->delete();
@@ -339,8 +341,4 @@ class CheckoutController extends Controller
 
         return redirect()->route('order.failed')->with('error', 'Thanh toán không thành công!');
     }
-
-
 }
-    
-
