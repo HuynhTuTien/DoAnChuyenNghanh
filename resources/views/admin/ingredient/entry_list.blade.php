@@ -33,6 +33,13 @@
                                                 <td>{{ $entry->unit }}</td>
                                                 <td>{{ number_format($entry->price, 2) }}</td>
                                                 <td>{{ $entry->created_at->format('d-m-Y H:i:s') }}</td>
+
+                                                <td>
+
+                                                    <a href="{{ route('ingredient.entry.detail', $entry->id) }}" class="btn btn-info btn-sm text-white">
+                                                        <i class="fas fa-edit"></i> Xem
+                                                    </a>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>

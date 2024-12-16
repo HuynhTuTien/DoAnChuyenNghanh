@@ -139,4 +139,13 @@ class IngredientController extends Controller
         // Trả về view với danh sách các lần nhập nguyên liệu
         return view('admin.ingredient.entry_list', compact('entries'));
     }
+
+    public function showEntryDetail($id)
+    {
+        // Lấy thông tin chi tiết của bản ghi nhập liệu từ nhà cung cấp
+        $entry = IngredientEntry::with(['ingredient', 'supplier'])->findOrFail($id);
+
+        // Trả về view chi tiết với thông tin về nguyên liệu và nhà cung cấp
+        return view('admin.ingredient.entry_detail', compact('entry'));
+    }
 }

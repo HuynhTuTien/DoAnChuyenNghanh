@@ -15,7 +15,7 @@ class Cart extends Model
         'id',
         'user_id',
         'dish_id',
-        'promotion_id',
+        // 'promotion_id',
         'quantity',
         'total_price'
     ];

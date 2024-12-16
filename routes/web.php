@@ -126,6 +126,9 @@ Route::name('ingredient.')->prefix('ingredient')->middleware(['auth:admin', 'rol
     Route::get('/entry', [IngredientController::class, 'showEntryForm'])->name('entryForm'); // Hiển thị form nhập nguyên liệu
     Route::post('/entry', [IngredientController::class, 'storeEntry'])->name('storeEntry'); // Lưu nhập nguyên liệu
     Route::get('/entry/list', [IngredientController::class, 'showEntryList'])->name('entry.list'); // Danh sách lịch sử nhập nguyên liệu
+
+    Route::get('/entry/{id}', [IngredientController::class, 'showEntryDetail'])->name('entry.detail'); // Xem chi tiết nhập nguyên liệu
+
 });
 
 

@@ -24,7 +24,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <strong>Địa chỉ giao hàng:</strong>
-                                        @if($order->delivery_method == 'giao hàng')
+                                        @if($order->payment_option == 'delivery')
                                             {{ $order->delivery_address ?? 'Không có' }}, {{ $order->ward ?? '' }}, {{ $order->district ?? '' }}
                                         @else
                                             Dùng tại cửa hàng
