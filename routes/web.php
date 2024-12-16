@@ -145,6 +145,8 @@ Route::post('payment/vnpay/return', [PaymentController::class, 'vnpayReturn'])->
 Route::post('payment/checkout', [CheckoutController::class, 'processPayment'])->name('payment.checkout');
 Route::get('payment/return', [CheckoutController::class, 'paymentReturn'])->name('payment.return');
 
+Route::get('/checkout/vnpay-callback', [CheckoutController::class, 'vnpayCallback'])->name('vnpay.callback');
+
 
 // Route hiển thị chi tiết đơn hàng
 Route::get('/admin/order/{id}', [OrderController::class, 'show'])->name('admin.order.show');
