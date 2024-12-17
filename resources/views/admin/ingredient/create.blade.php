@@ -27,7 +27,7 @@
 
                                 <div class="mb-3">
                                     <label for="quantity" class="form-label">Số lượng</label>
-                                    <input type="number" class="form-control" id="quantity" name="quantity" value="{{ old('quantity') }}" required>
+                                    <input type="number" class="form-control" id="quantity" name="quantity" value="{{ old('quantity', 0) }}" min="0" required>
                                     @error('quantity')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror

@@ -224,6 +224,29 @@
 
     // Mặc định khi trang load là "Dùng tại cửa hàng"
     window.onload = function() {
+
+        // Xử lý trường thời gian
+        const storeTimeField = document.getElementById('storeTime');
+
+        // Lấy thời gian hiện tại
+        const now = new Date();
+        const currentHour = now.getHours();
+        const currentMinute = now.getMinutes();
+
+        // Chuyển thời gian hiện tại thành định dạng hh:mm
+        const currentTime = now.toISOString().slice(0, 16).substring(11);
+
+        // Thiết lập giới hạn thời gian từ 8h sáng đến 10h tối
+        const openingTime = "08:00";
+        const closingTime = "22:00";
+
+        // Thiết lập min và max cho input time
+        storeTimeField.min = currentTime > openingTime ? currentTime : openingTime;
+        storeTimeField.max = closingTime;
+
+        // Hiển thị trường thời gian nếu cần
+        storeTimeField.style.display = "block";
+
         toggleAddressField('store');  // Mặc định là "Dùng tại cửa hàng"
     }
 
@@ -254,10 +277,7 @@
             wardSelect.appendChild(option);
         });
     }
-
-    //  // Mặc định khi trang load là "Dùng tại cửa hàng" và không hiển thị chọn giờ
-    //  window.onload = function() {
-    //     toggleAddressField('store');  // Mặc định là "Dùng tại cửa hàng"
-    // }
 </script>
+
+
 @endsection

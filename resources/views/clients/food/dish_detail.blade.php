@@ -138,32 +138,49 @@
                 <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
                     <div class="pd-inner-content">
                         <label for="">Ghi bình luận và đánh giá</label>
-                        @if(\Illuminate\Support\Facades\Auth::user()) <!-- Kiểm tra nếu người dùng đã đăng nhập -->
-                        <form action="{{ route('reviews.store', $dishDetail->id) }}" method="POST">
-                            @csrf
-                            <div class="form-group">
-                                <textarea class="form-control" name="review" id="" cols="30" rows="5"
-                                    placeholder="Vui lòng nhập bình luận"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="rating">Đánh giá:</label>
-                                <select name="rating" id="rating" class="form-control">
-                                    <option value="">Chọn số sao</option>
-                                    <option value="1">1 sao</option>
-                                    <option value="2">2 sao</option>
-                                    <option value="3">3 sao</option>
-                                    <option value="4">4 sao</option>
-                                    <option value="5">5 sao</option>
-                                </select>
-                            </div>
-                            <button type="submit" class="btn btn-danger mt-3">Gửi đánh giá</button>
-                        </form>
+
+                        @if(\Illuminate\Support\Facades\Auth::check()) <!-- Kiểm tra nếu người dùng đã đăng nhập -->
+                        @php
+                            // Lấy ID người dùng
+                            $userId = \Illuminate\Support\Facades\Auth::id();
+
+                            // Kiểm tra đơn hàng hoàn thành của người dùng với món ăn
+                            $orderExists = \App\Models\OrderDish::whereHas('order', function ($query) use ($userId) {
+                                $query->where('user_id', $userId)->where('status', 'hoàn thành');
+                            })->where('dish_id', $dishDetail->id)->exists();
+                        @endphp
+
+                        @if($orderExists) <!-- Nếu người dùng đã mua món ăn này và đơn hàng hoàn thành -->
+                            <form action="{{ route('reviews.store', $dishDetail->id) }}" method="POST">
+                                @csrf
+                                <div class="form-group">
+                                    <textarea class="form-control" name="review" cols="30" rows="5" placeholder="Vui lòng nhập bình luận"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="rating">Đánh giá:</label>
+                                    <select name="rating" id="rating" class="form-control">
+                                        <option value="">Chọn số sao</option>
+                                        <option value="1">1 sao</option>
+                                        <option value="2">2 sao</option>
+                                        <option value="3">3 sao</option>
+                                        <option value="4">4 sao</option>
+                                        <option value="5">5 sao</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-danger mt-3">Gửi đánh giá</button>
+                            </form>
                         @else
-                            <!-- Nếu người dùng chưa đăng nhập, chỉ hiển thị thông báo -->
                             <div class="alert alert-warning mt-3">
-                                Vui lòng đăng nhập để có thể gửi bình luận và đánh giá.
+                                Bạn cần mua món ăn này và hoàn tất thanh toán để gửi đánh giá.
                             </div>
                         @endif
+                    @else
+                        <!-- Nếu người dùng chưa đăng nhập -->
+                        <div class="alert alert-warning mt-3">
+                            Vui lòng đăng nhập để có thể gửi bình luận và đánh giá.
+                        </div>
+                    @endif
+
 
 
                     </div>

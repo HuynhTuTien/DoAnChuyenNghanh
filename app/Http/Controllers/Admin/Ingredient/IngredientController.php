@@ -29,7 +29,7 @@ class IngredientController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255|unique:ingredients,name', // Kiểm tra trùng tên
-            'quantity' => 'required|numeric|min:0.01|regex:/^\d+(\.\d{1,2})?$/', // Cho phép quantity có thể null, và mặc định sẽ là 0 nếu không nhập
+            'quantity' => 'required|numeric|min:0|regex:/^\d+(\.\d{1,2})?$/', // Cho phép quantity có thể null, và mặc định sẽ là 0 nếu không nhập
             'unit' => 'nullable|string|max:20',
         ], [
             'name.unique' => 'Nguyên liệu đã tồn tại.', // Thông báo lỗi khi tên nguyên liệu trùng
@@ -99,7 +99,7 @@ class IngredientController extends Controller
         $request->validate([
             'ingredient_id' => 'required|exists:ingredients,id',
             'supplier_id' => 'required|exists:suppliers,id',
-            'quantity' => 'required|numeric|min:0.01|regex:/^\d+(\.\d{1,2})?$/',
+            'quantity' => 'required|numeric|min:0|regex:/^\d+(\.\d{1,2})?$/',
             'unit' => 'nullable|string|max:20',
             'price' => 'required|numeric|min:0',
         ]);

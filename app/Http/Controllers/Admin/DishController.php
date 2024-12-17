@@ -66,6 +66,19 @@ class DishController extends Controller
         return redirect()->route('dish.list');
     }
 
+    // public function store(CreateDishRequest $request)
+    // {
+    //     // Create the new dish
+    //     $dish = Dish::createNewDish($request->validated());
+
+    //     // Flash a success message
+    //     flash()->success('Thêm thành công.');
+
+    //     // Redirect to the manage ingredients page for the newly added dish
+    //     return redirect()->route('dish.manageIngredients', ['slug' => $dish->slug]);
+    // }
+
+
     public function update(UpdateDishRequest $request, $slug)
     {
         $dish = Dish::where('slug', $slug)->firstOrFail();
